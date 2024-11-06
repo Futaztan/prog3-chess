@@ -13,7 +13,7 @@ public class Tabla {
     private boolean feketeJon =false;
     private Figura selected_figura;
     private Mezo selected_mezo;
-
+    public JLabel kiiras= new JLabel();
 
     public void inic()
     {
@@ -25,7 +25,7 @@ public class Tabla {
 
         // Panel létrehozása az elemekhez
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(8,8,0,0));
+        panel.setLayout(new GridLayout(9,8,0,0));
         //TODO: BAL SAROKBÓL JOBBRA KEZDI FELÉPITENI
 
         matrix[0][0] = new Mezo(new Bastya(true,0,0),0,0);
@@ -89,8 +89,11 @@ public class Tabla {
                 panel.add(matrix[i][j]);
             }
         }
+
+        panel.add(kiiras);
         frame.add(panel);
         frame.setVisible(true);
+        kiiras.setText("FEHER JON");
 
 
     }
@@ -116,6 +119,9 @@ public class Tabla {
                 selected_mezo.setFigura(null);
                 selected_figura=null;
                 selected_mezo=null;
+                feketeJon=!feketeJon;
+                if(feketeJon) kiiras.setText("fekete jon");
+                else kiiras.setText("feher jon");               //kövi kör
         }
 
 
