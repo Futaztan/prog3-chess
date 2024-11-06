@@ -1,3 +1,5 @@
+package sakktabla;
+
 import figurak.*;
 
 import javax.swing.*;
@@ -7,26 +9,18 @@ import java.awt.event.ActionListener;
 
 public class Tabla {
     private Mezo[][] matrix = new Mezo[8][8];
-    private Kiraly fekete_kiraly = new Kiraly(true);
-    private Kiraly feher_kiraly = new Kiraly(false);
-    private Kiralyno feher_kiralyno = new Kiralyno(false    );
-    private Kiralyno fekete_kiralyno = new Kiralyno(true);
-    private Bastya fekete_bastya = new Bastya(true);
-    private Bastya feher_bastya = new Bastya(false);
-    private Futo fekete_futo = new Futo(true);
-    private  Futo feher_futo = new Futo(false);
-    private Huszar fekete_huszar = new Huszar(true);
-    private  Huszar feher_huszar = new Huszar(false);
+
     private boolean feketeJon =false;
-    private Figura selected;
+    private Figura selected_figura;
+    private Mezo selected_mezo;
 
 
     public void inic()
     {
-        JFrame frame = new JFrame("Tabla");
+        JFrame frame = new JFrame("sakktabla.Tabla");
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 200);
+        frame.setSize(800, 800);
         frame.setLocationRelativeTo(null); // Ablak középre helyezése
 
         // Panel létrehozása az elemekhez
@@ -34,14 +28,14 @@ public class Tabla {
         panel.setLayout(new GridLayout(8,8,0,0));
         //TODO: BAL SAROKBÓL JOBBRA KEZDI FELÉPITENI
 
-        matrix[0][0] = new Mezo(fekete_bastya,0,0);
-        matrix[0][1] = new Mezo(fekete_huszar,0,1);
-        matrix[0][2] = new Mezo(fekete_futo,0,2);
-        matrix[0][3] = new Mezo(fekete_kiralyno,0,3);
-        matrix[0][4] = new Mezo(fekete_kiraly,0,4);
-        matrix[0][5] = new Mezo(fekete_futo,0,5);
-        matrix[0][6] = new Mezo(fekete_huszar,0,6);
-        matrix[0][7] = new Mezo(fekete_bastya,0,7);
+        matrix[0][0] = new Mezo(new Bastya(true,0,0),0,0);
+        matrix[0][1] = new Mezo(new Huszar(true,0,1),0,1);
+        matrix[0][2] = new Mezo(new Futo(true,0,2),0,2);
+        matrix[0][3] = new Mezo(new Kiralyno(true,0,3),0,3);
+        matrix[0][4] = new Mezo (new Kiraly(true,0,4),0,4);
+        matrix[0][5] = new Mezo(new Futo(true,0,5),0,5);
+        matrix[0][6] = new Mezo(new Huszar(true,0,6),0,6);
+        matrix[0][7] = new Mezo(new Bastya(true,0,7),0,7);
 
 
         Icon icon;
@@ -60,14 +54,14 @@ public class Tabla {
             }
         }
 
-        matrix[7][0] = new Mezo(feher_bastya,7,0);
-        matrix[7][1] = new Mezo(feher_huszar,7,1);
-        matrix[7][2] = new Mezo(feher_futo,7,2);
-        matrix[7][3] = new Mezo(feher_kiralyno,7,3);
-        matrix[7][4] = new Mezo(feher_kiraly,7,4);
-        matrix[7][5] = new Mezo(feher_futo,7,5);
-        matrix[7][6] = new Mezo(feher_huszar,7,6);
-        matrix[7][7] = new Mezo(feher_bastya,7,7);
+        matrix[7][0] = new Mezo(new Bastya( false,7,0),7,0);
+        matrix[7][1] = new Mezo(new Huszar( false,7,1),7,1);
+        matrix[7][2] = new Mezo(new Futo(false,7,2),7,2);
+        matrix[7][3] = new Mezo(new Kiralyno (false,7,3),7,3);
+        matrix[7][4] = new Mezo (new Kiraly( false,7,4),7,4);
+        matrix[7][5] = new Mezo(new Futo( false,7,5),7,5);
+        matrix[7][6] = new Mezo(new Huszar( false,7,6),7,6);
+        matrix[7][7] = new Mezo(new Bastya( false,7,7),7,7);
 
         for(int i=0;i<8;i++)
         {
@@ -103,15 +97,27 @@ public class Tabla {
 
     public void kattintas(Mezo mezo)
     {
+        if(mezo.getFigura()!=null)
+        {
+            Figura f = mezo.getFigura();
+            if(feketeJon && f.isFekete()){
+                selected_figura = f;
+                selected_mezo=mezo;
+            }
 
-        Figura f = mezo.getFigura();
-        if(feketeJon && f.isFekete())
-            selected = f;
-        else if(!feketeJon && !f.isFekete())
-            selected = f;
-        else {
-            f.lepes(mezo);
+            else if(!feketeJon && !f.isFekete()){
+                selected_figura = f;
+                selected_mezo=mezo;
+            }
+
         }
+        if(selected_figura!=null && selected_figura.lepes(mezo)){
+                //selected_mezo.setIcon(null);
+                selected_mezo.setFigura(null);
+                selected_figura=null;
+                selected_mezo=null;
+        }
+
 
     }
 

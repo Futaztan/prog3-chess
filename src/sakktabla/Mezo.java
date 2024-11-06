@@ -1,3 +1,5 @@
+package sakktabla;
+
 import figurak.Figura;
 
 import javax.swing.*;
@@ -20,7 +22,12 @@ public class Mezo extends JButton
 
     }
     public void setFigura(Figura figura) {
+
         this.figura = figura;
+        if(figura!=null){
+            this.setIcon(figura.getIkon());
+        }
+        else this.setIcon(null);
     }
 
     public Figura getFigura() {
