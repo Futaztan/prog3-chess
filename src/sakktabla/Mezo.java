@@ -2,12 +2,16 @@ import figurak.Figura;
 
 import javax.swing.*;
 
-public class Tile extends JButton
+public class Mezo extends JButton
 {
     private Figura figura;
+    public int sor;
+    public int oszlop;
 
-    Tile(Figura f)
+    public Mezo(Figura f,int s,int o)
     {
+        sor=s;
+        oszlop=o;
         figura = f;
         if(f!=null){
             this.setIcon(f.getIkon());

@@ -2,9 +2,11 @@ import figurak.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Tabla {
-    private Tile[][] matrix = new Tile[8][8];
+    private Mezo[][] matrix = new Mezo[8][8];
     private Kiraly fekete_kiraly = new Kiraly(true);
     private Kiraly feher_kiraly = new Kiraly(false);
     private Kiralyno feher_kiralyno = new Kiralyno(false    );
@@ -15,7 +17,8 @@ public class Tabla {
     private  Futo feher_futo = new Futo(false);
     private Huszar fekete_huszar = new Huszar(true);
     private  Huszar feher_huszar = new Huszar(false);
-
+    private boolean feketeJon =false;
+    private Figura selected;
 
 
     public void inic()
@@ -31,14 +34,14 @@ public class Tabla {
         panel.setLayout(new GridLayout(8,8,0,0));
         //TODO: BAL SAROKBÓL JOBBRA KEZDI FELÉPITENI
 
-        matrix[0][0] = new Tile(fekete_bastya);
-        matrix[0][1] = new Tile(fekete_huszar);
-        matrix[0][2] = new Tile(fekete_futo);
-        matrix[0][3] = new Tile(fekete_kiralyno);
-        matrix[0][4] = new Tile(fekete_kiraly);
-        matrix[0][5] = new Tile(fekete_futo);
-        matrix[0][6] = new Tile(fekete_huszar);
-        matrix[0][7] = new Tile(fekete_bastya);
+        matrix[0][0] = new Mezo(fekete_bastya,0,0);
+        matrix[0][1] = new Mezo(fekete_huszar,0,1);
+        matrix[0][2] = new Mezo(fekete_futo,0,2);
+        matrix[0][3] = new Mezo(fekete_kiralyno,0,3);
+        matrix[0][4] = new Mezo(fekete_kiraly,0,4);
+        matrix[0][5] = new Mezo(fekete_futo,0,5);
+        matrix[0][6] = new Mezo(fekete_huszar,0,6);
+        matrix[0][7] = new Mezo(fekete_bastya,0,7);
 
 
         Icon icon;
@@ -48,23 +51,23 @@ public class Tabla {
             {
                 //icon = new ImageIcon("feher-huszar.png");
                 if(row==1){
-                    matrix[row][col]= new Tile(new Paraszt(true));
+                    matrix[row][col]= new Mezo(new Paraszt(true,row,col),row,col);
                 }
                 else if(row==6){
-                    matrix[row][col]= new Tile(new Paraszt(false));
+                    matrix[row][col]= new Mezo(new Paraszt(false,row,col),row,col);
                 }
-                else  matrix[row][col] = new Tile(null);
+                else  matrix[row][col] = new Mezo(null,row,col);
             }
         }
 
-        matrix[7][0] = new Tile(feher_bastya);
-        matrix[7][1] = new Tile(feher_huszar);
-        matrix[7][2] = new Tile(feher_futo);
-        matrix[7][3] = new Tile(feher_kiralyno);
-        matrix[7][4] = new Tile(feher_kiraly);
-        matrix[7][5] = new Tile(feher_futo);
-        matrix[7][6] = new Tile(feher_huszar);
-        matrix[7][7] = new Tile(feher_bastya);
+        matrix[7][0] = new Mezo(feher_bastya,7,0);
+        matrix[7][1] = new Mezo(feher_huszar,7,1);
+        matrix[7][2] = new Mezo(feher_futo,7,2);
+        matrix[7][3] = new Mezo(feher_kiralyno,7,3);
+        matrix[7][4] = new Mezo(feher_kiraly,7,4);
+        matrix[7][5] = new Mezo(feher_futo,7,5);
+        matrix[7][6] = new Mezo(feher_huszar,7,6);
+        matrix[7][7] = new Mezo(feher_bastya,7,7);
 
         for(int i=0;i<8;i++)
         {
@@ -78,21 +81,40 @@ public class Tabla {
                 } else {
                     matrix[i][j].setBackground(Color.GRAY); // Sötét mező
                 }
+
+                final int row =i;
+                final int col =j;
+                matrix[i][j].addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                       //matrix[row][col].setBackground(Color.red);
+                        kattintas(matrix[row][col]);
+
+                    }
+                });
                 panel.add(matrix[i][j]);
             }
         }
-
-
-
-
-
         frame.add(panel);
-
-        // Keret megjelenítése
         frame.setVisible(true);
-        //frame.pack();
-        // Panel létrehozása az elemekhez
+
 
     }
+
+    public void kattintas(Mezo mezo)
+    {
+
+        Figura f = mezo.getFigura();
+        if(feketeJon && f.isFekete())
+            selected = f;
+        else if(!feketeJon && !f.isFekete())
+            selected = f;
+        else {
+            f.lepes(mezo);
+        }
+
+    }
+
+
 
 }
