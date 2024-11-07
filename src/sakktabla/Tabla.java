@@ -73,7 +73,7 @@ public class Tabla {
                 if ((i + j) % 2 == 0) {
                     matrix[i][j].setBackground(Color.WHITE); // Világos mező
                 } else {
-                    matrix[i][j].setBackground(Color.GRAY); // Sötét mező
+                    matrix[i][j].setBackground(Color.PINK); // Sötét mező
                 }
 
                 final int row =i;
@@ -106,15 +106,17 @@ public class Tabla {
             if(feketeJon && f.isFekete()){
                 selected_figura = f;
                 selected_mezo=mezo;
+                return;
             }
 
             else if(!feketeJon && !f.isFekete()){
                 selected_figura = f;
                 selected_mezo=mezo;
+                return;
             }
 
         }
-        if(selected_figura!=null && selected_figura.lepes(mezo)){
+        if(selected_figura!=null && selected_figura.lepes(mezo,matrix)){
                 //selected_mezo.setIcon(null);
                 selected_mezo.setFigura(null);
                 selected_figura=null;

@@ -15,7 +15,7 @@ public class Kiralyno extends Figura {
         else ikon = new ImageIcon(this.getClass().getResource("/ikonok/feher-kiralyno.png"));
     }
     @Override
-    public boolean lepes(Mezo mezo) {
+    public boolean lepes(Mezo mezo,Mezo[][] matrix) {
         //TODO
         return false;
     }

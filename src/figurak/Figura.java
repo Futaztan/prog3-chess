@@ -17,7 +17,7 @@ public Figura(boolean fekete,int sor,int oszlop )
     this.oszlop=oszlop;
 }
 
-public abstract boolean lepes(Mezo mezo);
+public abstract boolean lepes(Mezo mezo,Mezo[][] matrix);
 public void kiralyCheck()
 {
 

@@ -14,7 +14,7 @@ public class Futo extends Figura {
         else ikon = new ImageIcon(this.getClass().getResource("/ikonok/feher-futo.png"));
     }
     @Override
-    public boolean lepes(Mezo mezo) {
+    public boolean lepes(Mezo mezo, Mezo[][] matrix) {
         //TODO
         return false;
     }

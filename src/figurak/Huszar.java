@@ -16,7 +16,7 @@ public class Huszar extends Figura {
         else ikon = new ImageIcon(this.getClass().getResource("/ikonok/feher-huszar.png"));
     }
     @Override
-    public boolean lepes(Mezo mezo) {
+    public boolean lepes(Mezo mezo,Mezo[][] matrix) {
         //TODO
         if(isBalLepes(mezo) || isJobbLepes(mezo) || isFelLepes(mezo) || isLeLepes(mezo)){
             mezo.setFigura(this);

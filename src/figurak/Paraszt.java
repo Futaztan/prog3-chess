@@ -18,7 +18,7 @@ public class Paraszt extends Figura {
 
 
     @Override
-    public boolean lepes(Mezo mezo) {
+    public boolean lepes(Mezo mezo,Mezo[][] matrix) {
 
         if(isBasicLepes(mezo) || isDuplaLepes(mezo) || isLeutesLepes(mezo))
         {
