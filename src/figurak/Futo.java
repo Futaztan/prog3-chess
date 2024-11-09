@@ -25,7 +25,7 @@ public class Futo extends Figura {
         }
         return false;
     }
-    //TODO CSAK MEZO OSZLOPIG MENJEN A FOR CIKLUS
+
     public boolean isAtloLepes(Mezo mezo,Mezo[][] matrix)
     {
         int hatarJobbLe=7;
@@ -50,7 +50,7 @@ public class Futo extends Figura {
         Figura blockingFigura;
         switch (mezopozicio) {
             case "jobbfel":
-                for (int oszlop = this.oszlop + 1; oszlop < 7; oszlop++) {
+                for (int oszlop = this.oszlop + 1; oszlop <= mezo.oszlop; oszlop++) {
                     if(this.sor+sorkulonb>7) break;
                     blockingFigura = matrix[this.sor - sorkulonb][oszlop].getFigura();
                     if (blockingFigura != null) {
@@ -66,7 +66,7 @@ public class Futo extends Figura {
 
                 break;
             case "jobble":
-                for (int oszlop = this.oszlop + 1; oszlop < 7; oszlop++) {
+                for (int oszlop = this.oszlop + 1; oszlop <= mezo.oszlop; oszlop++) {
                     if(this.sor+sorkulonb>7) break;
                     blockingFigura = matrix[this.sor + sorkulonb][oszlop].getFigura();
                     if (blockingFigura != null) {
@@ -82,7 +82,7 @@ public class Futo extends Figura {
                 break;
             case "balfel":
 
-                for (int oszlop = this.oszlop - 1; oszlop >= 0; oszlop--) {
+                for (int oszlop = this.oszlop - 1; oszlop >= mezo.oszlop; oszlop--) {
                     if(this.sor+sorkulonb>7) break;
                     blockingFigura = matrix[this.sor - sorkulonb][oszlop].getFigura();
                     if (blockingFigura != null) {
@@ -97,7 +97,7 @@ public class Futo extends Figura {
                 break;
             case "balle":
 
-                for (int oszlop = this.oszlop - 1; oszlop >= 0; oszlop--) {
+                for (int oszlop = this.oszlop - 1; oszlop >= mezo.oszlop; oszlop--) {
                     if(this.sor+sorkulonb>7) break;
                     blockingFigura = matrix[this.sor + sorkulonb][oszlop].getFigura();
                     if (blockingFigura != null) {
