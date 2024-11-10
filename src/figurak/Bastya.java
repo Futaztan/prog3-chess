@@ -76,8 +76,8 @@ public class Bastya extends Figura {
             if(blockingFigura!=null)
             {
                 if(blockingFigura.isFekete== this.isFekete)
-                    hataroszlopJobb = oszlop+1;
-                else hataroszlopJobb = oszlop;
+                    hataroszlopBal = oszlop+1;
+                else hataroszlopBal = oszlop;
                 break;
             }
         }

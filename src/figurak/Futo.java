@@ -51,7 +51,7 @@ public class Futo extends Figura {
         switch (mezopozicio) {
             case "jobbfel":
                 for (int oszlop = this.oszlop + 1; oszlop <= mezo.oszlop; oszlop++) {
-                    if(this.sor+sorkulonb>7) break;
+                   // if(this.sor+sorkulonb>7) break;
                     blockingFigura = matrix[this.sor - sorkulonb][oszlop].getFigura();
                     if (blockingFigura != null) {
                         if (blockingFigura.isFekete == this.isFekete) {
@@ -83,7 +83,7 @@ public class Futo extends Figura {
             case "balfel":
 
                 for (int oszlop = this.oszlop - 1; oszlop >= mezo.oszlop; oszlop--) {
-                    if(this.sor+sorkulonb>7) break;
+                   // if(this.sor+sorkulonb>7) break;
                     blockingFigura = matrix[this.sor - sorkulonb][oszlop].getFigura();
                     if (blockingFigura != null) {
                         if (blockingFigura.isFekete == this.isFekete) {
