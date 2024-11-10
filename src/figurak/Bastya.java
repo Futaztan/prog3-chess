@@ -28,62 +28,87 @@ public class Bastya extends Figura {
     }
 
     public boolean isOszlopSorLepes(Mezo mezo,Mezo[][] matrix){
-        if((mezo.sor == this.sor || mezo.oszlop == this.oszlop) ==false) return false;
-        int hatarsorLe=7;
-        int hatarsorFel=0;
-        int hataroszlopJobb=7;
-        int hataroszlopBal=0;
+
+        String mezopozicio;
+        if(mezo.sor==this.sor){
+            if(mezo.oszlop>this.oszlop) mezopozicio="jobb";
+            else mezopozicio="bal";
+        }
+        else if(mezo.oszlop==this.oszlop){
+            if(mezo.sor>this.sor) mezopozicio="le";
+            else mezopozicio="fel";
+        }
+        else return false;
+
         Figura blockingFigura;
-        for(int sor=this.sor+1;sor<8;sor++)
+        switch (mezopozicio)
         {
-            blockingFigura = matrix[sor][this.oszlop].getFigura();
-            if(blockingFigura!=null)
-            {
-                if(blockingFigura.isFekete == this.isFekete)
-                    hatarsorLe=sor-1;
-                else hatarsorLe=sor;
-                break;
-            }
+            case "jobb":
+                int hataroszlopJobb=7;
+                for(int oszlop=this.oszlop+1; oszlop<8;oszlop++)
+                {
+                    blockingFigura = matrix[this.sor][oszlop].getFigura();
+                    if(blockingFigura!=null)
+                    {
+                        if(blockingFigura.isFekete== this.isFekete)
+                            hataroszlopJobb = oszlop-1;
+                        else hataroszlopJobb = oszlop;
+                        break;
+                    }
+                }
+                return mezo.oszlop <=hataroszlopJobb;
+
+
+            case "bal":
+                int hataroszlopBal=0;
+                for(int oszlop=this.oszlop-1;oszlop>=0;oszlop--)
+                {
+                    blockingFigura = matrix[this.sor][oszlop].getFigura();
+                    if(blockingFigura!=null)
+                    {
+                        if(blockingFigura.isFekete== this.isFekete)
+                            hataroszlopBal = oszlop+1;
+                        else hataroszlopBal = oszlop;
+                        break;
+                    }
+                }
+                return mezo.oszlop>=hataroszlopBal;
+
+
+            case "fel":
+                int hatarsorFel=0;
+                for(int sor=this.sor-1; sor>=0; sor--)
+                {
+                    blockingFigura = matrix[sor][this.oszlop].getFigura();
+                    if(blockingFigura!=null)
+                    {
+                        if(blockingFigura.isFekete == this.isFekete)
+                            hatarsorFel=sor+1;
+                        else hatarsorFel=sor;
+                        break;
+                    }
+                }
+                return mezo.sor >= hatarsorFel;
+
+
+            case "le":
+                int hatarsorLe=7;
+                for(int sor=this.sor+1;sor<8;sor++)
+                {
+                    blockingFigura = matrix[sor][this.oszlop].getFigura();
+                    if(blockingFigura!=null)
+                    {
+                        if(blockingFigura.isFekete == this.isFekete)
+                            hatarsorLe=sor-1;
+                        else hatarsorLe=sor;
+                        break;
+                    }
+
+                }
+                return hatarsorLe >= mezo.sor;
 
         }
-        for(int sor=this.sor-1; sor>=0; sor--)
-        {
-            blockingFigura = matrix[sor][this.oszlop].getFigura();
-            if(blockingFigura!=null)
-            {
-                if(blockingFigura.isFekete == this.isFekete)
-                    hatarsorFel=sor+1;
-                else hatarsorFel=sor;
-                break;
-            }
-        }
-
-        for(int oszlop=this.oszlop+1; oszlop<8;oszlop++)
-        {
-            blockingFigura = matrix[this.sor][oszlop].getFigura();
-            if(blockingFigura!=null)
-            {
-                if(blockingFigura.isFekete== this.isFekete)
-                    hataroszlopJobb = oszlop-1;
-                else hataroszlopJobb = oszlop;
-                break;
-            }
-        }
-
-        for(int oszlop=this.oszlop-1;oszlop>=0;oszlop--)
-        {
-            blockingFigura = matrix[this.sor][oszlop].getFigura();
-            if(blockingFigura!=null)
-            {
-                if(blockingFigura.isFekete== this.isFekete)
-                    hataroszlopBal = oszlop+1;
-                else hataroszlopBal = oszlop;
-                break;
-            }
-        }
-
-        return hatarsorLe >= mezo.sor && mezo.sor >= hatarsorFel &&
-                hataroszlopBal <= mezo.oszlop && mezo.oszlop <=hataroszlopJobb;
+        return false;
     }
 
 }

@@ -62,9 +62,9 @@ public class Futo extends Figura {
                     sorkulonb++;
                 }
 
-                if (Math.abs(this.sor - mezo.sor) <= hatarJobbFel) return true;
+                return Math.abs(this.sor - mezo.sor) <= hatarJobbFel;
 
-                break;
+
             case "jobble":
                 for (int oszlop = this.oszlop + 1; oszlop <= mezo.oszlop; oszlop++) {
                     if(this.sor+sorkulonb>7) break;
@@ -78,8 +78,8 @@ public class Futo extends Figura {
                     sorkulonb++;
 
                 }
-                if (Math.abs(this.sor - mezo.sor) <= hatarJobbLe) return true;
-                break;
+                return Math.abs(this.sor - mezo.sor) <= hatarJobbLe;
+
             case "balfel":
 
                 for (int oszlop = this.oszlop - 1; oszlop >= mezo.oszlop; oszlop--) {
@@ -93,8 +93,8 @@ public class Futo extends Figura {
                     }
                     sorkulonb++;
                 }
-                if (Math.abs(this.sor - mezo.sor) <= hatarBalFel) return true;
-                break;
+                return Math.abs(this.sor - mezo.sor) <= hatarBalFel;
+
             case "balle":
 
                 for (int oszlop = this.oszlop - 1; oszlop >= mezo.oszlop; oszlop--) {
@@ -108,8 +108,8 @@ public class Futo extends Figura {
                     }
                     sorkulonb++;
                 }
-                if (Math.abs(this.sor - mezo.sor) <= hatarBalLe) return true;
-                break;
+                return Math.abs(this.sor - mezo.sor) <= hatarBalLe;
+
 
         }
 
