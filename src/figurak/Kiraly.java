@@ -15,7 +15,19 @@ public class Kiraly extends Figura {
     }
     @Override
     public boolean lepes(Mezo mezo,Mezo[][] matrix) {
-        //TODO
+
+        if(isNegyzetLepes(mezo))
+        {
+            mezo.setFigura(this);
+            this.sor=mezo.sor;
+            this.oszlop=mezo.oszlop;
+            return true;
+        }
         return false;
+    }
+
+    public boolean isNegyzetLepes(Mezo mezo)
+    {
+        return Math.abs(mezo.oszlop-this.oszlop)<=1 && Math.abs(mezo.sor-this.sor)<=1;
     }
 }
