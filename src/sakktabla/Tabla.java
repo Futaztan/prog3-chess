@@ -6,10 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
+import java.util.List;
 
 public class Tabla {
     private Mezo[][] matrix = new Mezo[8][8];
-
     private boolean feketeJon =false;
     private Figura selected_figura;
     private Mezo selected_mezo;
@@ -17,11 +18,13 @@ public class Tabla {
     public JLabel sakkVanLabel = new JLabel();
     private Kiraly feketeKiraly;
     private Kiraly feherKiraly;
-    private boolean isSakkVan = false;
+    private List<Figura> feherek = new ArrayList<Figura>();
+    private List<Figura> feketek = new ArrayList<Figura>();
+
 
     public void inic()
     {
-        JFrame frame = new JFrame("sakktabla.Tabla");
+        JFrame frame = new JFrame("Sakktabla");
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
@@ -43,7 +46,7 @@ public class Tabla {
         matrix[0][7] = new Mezo(new Bastya(true,0,7),0,7);
         feketeKiraly = (Kiraly) matrix[0][4].getFigura();
 
-        Icon icon;
+
         for (int row=1;row<7;row++)
         {
             for(int col=0; col<8;col++)
@@ -95,6 +98,22 @@ public class Tabla {
                 panel.add(matrix[i][j]);
             }
         }
+        for(int sor =0; sor<=1;sor++)
+        {
+            for(int oszlop=0; oszlop<8;oszlop++)
+            {
+                feketek.add(matrix[sor][oszlop].getFigura());
+            }
+        }
+        for(int sor =6; sor<=7;sor++)
+        {
+            for(int oszlop=0; oszlop<8;oszlop++)
+            {
+                feherek.add(matrix[sor][oszlop].getFigura());
+            }
+        }
+
+
 
         panel.add(kiJonLabel);
         panel.add(sakkVanLabel);
@@ -124,39 +143,41 @@ public class Tabla {
             }
 
         }
-        if(selected_figura!=null && isSakkVan)
+        if(selected_figura!=null)
         {
            int eredetiSor = selected_figura.getSor();
            int eredetiOszlop = selected_figura.getOszlop();
            Icon eredetiIcon = mezo.getIcon();
            Figura eredetiFigura = mezo.getFigura();
+
            if(selected_figura.lepes(mezo,matrix))
            {
                if(feketeJon && feketeKiraly.sakkCheck(matrix))
                {
+
                    selected_figura.setSor(eredetiSor);
                    selected_figura.setOszlop(eredetiOszlop);
+                   selected_mezo.setFigura(selected_figura);
                    mezo.setIcon(eredetiIcon);
                    mezo.setFigura(eredetiFigura);
                    sakkVanLabel.setText("HIBAS LEPES");
                }
+               //TODO NEM JO HA ELLEP VALAKI AKKOR SAKKBA RAKJA MAGAT elvileg jo?
                else if(!feketeJon && feherKiraly.sakkCheck(matrix))
                {
                    selected_figura.setSor(eredetiSor);
                    selected_figura.setOszlop(eredetiOszlop);
+                   selected_mezo.setFigura(selected_figura);
                    mezo.setIcon(eredetiIcon);
                    mezo.setFigura(eredetiFigura);
                    sakkVanLabel.setText("HIBAS LEPES");
                }
                else{
                    sakkVanLabel.setText("NINCS SAKK");
-                   isSakkVan=false;
+                   //isSakkVan=false;
                    sikeresLepes();
                }
            }
-        }
-        else if(selected_figura!=null && selected_figura.lepes(mezo,matrix)){
-            sikeresLepes();
         }
     }
 
@@ -173,7 +194,7 @@ public class Tabla {
             kiJonLabel.setText("fekete jon");
             if(feketeKiraly.sakkCheck(matrix)){
                 sakkVanLabel.setText("SAKK VAN");
-                isSakkVan=true;
+                mattCheck();
             }
         }
         else
@@ -181,7 +202,18 @@ public class Tabla {
             kiJonLabel.setText("feher jon");
             if(feherKiraly.sakkCheck(matrix)){
                 sakkVanLabel.setText("SAKK VAN");
-                isSakkVan=true;
+                mattCheck();
+            }
+        }
+    }
+
+    public void mattCheck()
+    {
+        if(feketeJon)
+        {
+            for(Figura babu : feketek)
+            {
+
             }
         }
     }

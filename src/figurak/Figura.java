@@ -16,6 +16,7 @@ public Figura(boolean fekete,int sor,int oszlop )
     this.sor=sor;
     this.oszlop=oszlop;
 }
+
 //matrix a táblamátrix
     //mezo az a mezo ahova lépni akar
 public abstract boolean lepes(Mezo mezo,Mezo[][] matrix);

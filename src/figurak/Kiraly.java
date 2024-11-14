@@ -33,16 +33,12 @@ public class Kiraly extends Figura {
         return false;
     }
 
-
-
-
-
-
     @Override
     public boolean lepes(Mezo mezo,Mezo[][] matrix) {
 
         if(lepesCheck(mezo,matrix))
         {
+            matrix[this.sor][this.oszlop].setFigura(null);
             mezo.setFigura(this);
             this.sor=mezo.sor;
             this.oszlop=mezo.oszlop;
