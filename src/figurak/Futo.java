@@ -16,7 +16,7 @@ public class Futo extends Figura {
     @Override
     public boolean lepes(Mezo mezo, Mezo[][] matrix) {
 
-        if(isAtloLepes(mezo,matrix))
+        if(lepesCheck(mezo,matrix))
         {
             mezo.setFigura(this);
             this.sor=mezo.sor;
@@ -25,7 +25,11 @@ public class Futo extends Figura {
         }
         return false;
     }
-
+    @Override
+    public boolean lepesCheck(Mezo mezo,Mezo[][] matrix)
+    {
+        return isAtloLepes(mezo, matrix);
+    }
     public boolean isAtloLepes(Mezo mezo,Mezo[][] matrix)
     {
         int hatarJobbLe=7;

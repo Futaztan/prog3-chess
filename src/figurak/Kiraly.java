@@ -13,10 +13,35 @@ public class Kiraly extends Figura {
         }
         else ikon = new ImageIcon(this.getClass().getResource("/ikonok/feher-kiraly.png"));
     }
+
+    public boolean sakkCheck(Mezo[][] matrix)
+    {
+        Mezo kiralymezo = matrix[this.sor][this.oszlop];
+        boolean isSakkVan = false;
+        for(int sor = 0; sor<8;sor++)
+        {
+            for(int oszlop=0; oszlop<8;oszlop++)
+            {
+                if(matrix[sor][oszlop].getFigura()!=null &&
+                        matrix[sor][oszlop].getFigura().isFekete!=this.isFekete &&
+                        matrix[sor][oszlop].getFigura().lepesCheck(kiralymezo,matrix))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+
+
+
+
     @Override
     public boolean lepes(Mezo mezo,Mezo[][] matrix) {
 
-        if(isNegyzetLepes(mezo))
+        if(lepesCheck(mezo,matrix))
         {
             mezo.setFigura(this);
             this.sor=mezo.sor;
@@ -25,6 +50,12 @@ public class Kiraly extends Figura {
         }
         return false;
     }
+    @Override
+    public boolean lepesCheck(Mezo mezo,Mezo[][] matrix)
+    {
+        return isNegyzetLepes(mezo);
+    }
+
 
     public boolean isNegyzetLepes(Mezo mezo)
     {

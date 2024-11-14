@@ -18,13 +18,18 @@ public class Bastya extends Figura {
     @Override
     public boolean lepes(Mezo mezo,Mezo[][] matrix) {
 
-        if(isOszlopSorLepes(mezo,matrix)){
+        if(lepesCheck(mezo,matrix)){
             mezo.setFigura(this);
             this.sor=mezo.sor;
             this.oszlop=mezo.oszlop;
             return true;
         }
         return false;
+    }
+    @Override
+    public boolean lepesCheck(Mezo mezo,Mezo[][] matrix)
+    {
+        return isOszlopSorLepes(mezo,matrix);
     }
 
     public boolean isOszlopSorLepes(Mezo mezo,Mezo[][] matrix){

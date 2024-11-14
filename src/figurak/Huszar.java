@@ -18,13 +18,18 @@ public class Huszar extends Figura {
     @Override
     public boolean lepes(Mezo mezo,Mezo[][] matrix) {
         //TODO
-        if(isBalLepes(mezo) || isJobbLepes(mezo) || isFelLepes(mezo) || isLeLepes(mezo)){
+        if(lepesCheck(mezo,matrix)){
             mezo.setFigura(this);
             this.sor=mezo.sor;
             this.oszlop=mezo.oszlop;
             return true;
         }
         return false;
+    }
+    @Override
+    public boolean lepesCheck(Mezo mezo,Mezo[][] matrix)
+    {
+        return isBalLepes(mezo) || isJobbLepes(mezo) || isFelLepes(mezo) || isLeLepes(mezo);
     }
 
     public boolean isBalLepes(Mezo mezo) {

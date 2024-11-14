@@ -13,7 +13,11 @@ public class Tabla {
     private boolean feketeJon =false;
     private Figura selected_figura;
     private Mezo selected_mezo;
-    public JLabel kiiras= new JLabel();
+    public JLabel kiJonLabel= new JLabel();
+    public JLabel sakkVanLabel = new JLabel();
+    private Kiraly feketeKiraly;
+    private Kiraly feherKiraly;
+    private boolean isSakkVan = false;
 
     public void inic()
     {
@@ -28,6 +32,7 @@ public class Tabla {
         panel.setLayout(new GridLayout(9,8,0,0));
         //TODO: BAL SAROKBÓL JOBBRA KEZDI FELÉPITENI
 
+
         matrix[0][0] = new Mezo(new Bastya(true,0,0),0,0);
         matrix[0][1] = new Mezo(new Huszar(true,0,1),0,1);
         matrix[0][2] = new Mezo(new Futo(true,0,2),0,2);
@@ -36,7 +41,7 @@ public class Tabla {
         matrix[0][5] = new Mezo(new Futo(true,0,5),0,5);
         matrix[0][6] = new Mezo(new Huszar(true,0,6),0,6);
         matrix[0][7] = new Mezo(new Bastya(true,0,7),0,7);
-
+        feketeKiraly = (Kiraly) matrix[0][4].getFigura();
 
         Icon icon;
         for (int row=1;row<7;row++)
@@ -62,6 +67,7 @@ public class Tabla {
         matrix[7][5] = new Mezo(new Futo( false,7,5),7,5);
         matrix[7][6] = new Mezo(new Huszar( false,7,6),7,6);
         matrix[7][7] = new Mezo(new Bastya( false,7,7),7,7);
+        feherKiraly = (Kiraly) matrix[7][4].getFigura();
 
         for(int i=0;i<8;i++)
         {
@@ -90,10 +96,12 @@ public class Tabla {
             }
         }
 
-        panel.add(kiiras);
+        panel.add(kiJonLabel);
+        panel.add(sakkVanLabel);
         frame.add(panel);
         frame.setVisible(true);
-        kiiras.setText("FEHER JON");
+        sakkVanLabel.setText("NINCS SAKK");
+        kiJonLabel.setText("FEHER JON");
 
 
     }
@@ -116,19 +124,65 @@ public class Tabla {
             }
 
         }
-        if(selected_figura!=null && selected_figura.lepes(mezo,matrix)){
-                //selected_mezo.setIcon(null);
-                selected_mezo.setFigura(null);
-                selected_figura=null;
-                selected_mezo=null;
-                feketeJon=!feketeJon;
-                if(feketeJon) kiiras.setText("fekete jon");
-                else kiiras.setText("feher jon");               //kövi kör
+        if(selected_figura!=null && isSakkVan)
+        {
+           int eredetiSor = selected_figura.getSor();
+           int eredetiOszlop = selected_figura.getOszlop();
+           Icon eredetiIcon = mezo.getIcon();
+           Figura eredetiFigura = mezo.getFigura();
+           if(selected_figura.lepes(mezo,matrix))
+           {
+               if(feketeJon && feketeKiraly.sakkCheck(matrix))
+               {
+                   selected_figura.setSor(eredetiSor);
+                   selected_figura.setOszlop(eredetiOszlop);
+                   mezo.setIcon(eredetiIcon);
+                   mezo.setFigura(eredetiFigura);
+                   sakkVanLabel.setText("HIBAS LEPES");
+               }
+               else if(!feketeJon && feherKiraly.sakkCheck(matrix))
+               {
+                   selected_figura.setSor(eredetiSor);
+                   selected_figura.setOszlop(eredetiOszlop);
+                   mezo.setIcon(eredetiIcon);
+                   mezo.setFigura(eredetiFigura);
+                   sakkVanLabel.setText("HIBAS LEPES");
+               }
+               else{
+                   sakkVanLabel.setText("NINCS SAKK");
+                   isSakkVan=false;
+                   sikeresLepes();
+               }
+           }
         }
-
-
+        else if(selected_figura!=null && selected_figura.lepes(mezo,matrix)){
+            sikeresLepes();
+        }
     }
 
+    public void sikeresLepes()
+    {
 
-
+        selected_mezo.setFigura(null);
+        selected_figura=null;
+        selected_mezo=null;
+        feketeJon=!feketeJon;
+        //kövi kör
+        if(feketeJon)
+        {
+            kiJonLabel.setText("fekete jon");
+            if(feketeKiraly.sakkCheck(matrix)){
+                sakkVanLabel.setText("SAKK VAN");
+                isSakkVan=true;
+            }
+        }
+        else
+        {
+            kiJonLabel.setText("feher jon");
+            if(feherKiraly.sakkCheck(matrix)){
+                sakkVanLabel.setText("SAKK VAN");
+                isSakkVan=true;
+            }
+        }
+    }
 }

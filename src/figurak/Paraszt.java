@@ -20,7 +20,7 @@ public class Paraszt extends Figura {
     @Override
     public boolean lepes(Mezo mezo,Mezo[][] matrix) {
 
-        if(isBasicLepes(mezo) || isDuplaLepes(mezo) || isLeutesLepes(mezo))
+        if(lepesCheck(mezo, matrix))
         {
             mezo.setFigura(this);
             this.sor=mezo.sor;
@@ -29,6 +29,11 @@ public class Paraszt extends Figura {
         }
         return false;
 
+    }
+
+    @Override
+    public boolean lepesCheck(Mezo mezo, Mezo[][] matrix) {
+        return isBasicLepes(mezo) || isDuplaLepes(mezo) || isLeutesLepes(mezo);
     }
 
     public boolean isBasicLepes(Mezo mezo)

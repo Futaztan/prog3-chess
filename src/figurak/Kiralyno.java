@@ -16,7 +16,7 @@ public class Kiralyno extends Figura {
     }
     @Override
     public boolean lepes(Mezo mezo,Mezo[][] matrix) {
-        if(isAtloLepes(mezo, matrix) || isOszlopSorLepes(mezo,matrix))
+        if(lepesCheck(mezo, matrix))
         {
             mezo.setFigura(this);
             this.sor=mezo.sor;
@@ -26,8 +26,12 @@ public class Kiralyno extends Figura {
         return false;
     }
 
+    @Override
+    public boolean lepesCheck(Mezo mezo, Mezo[][] matrix) {
+        return isAtloLepes(mezo, matrix) || isOszlopSorLepes(mezo,matrix);
+    }
 
-    public boolean isOszlopSorLepes(Mezo mezo,Mezo[][] matrix){
+    public boolean isOszlopSorLepes(Mezo mezo, Mezo[][] matrix){
 
         String mezopozicio;
         if(mezo.sor==this.sor){
