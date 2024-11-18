@@ -10,6 +10,7 @@ import java.util.*;
 import java.util.List;
 
 public class Tabla {
+    private JFrame frame = new JFrame("Sakktabla");
     private Mezo[][] matrix = new Mezo[8][8];
     private boolean feketeJon =false;
     private Figura selected_figura;
@@ -20,15 +21,26 @@ public class Tabla {
     private Kiraly feherKiraly;
     private List<Figura> feherek = new ArrayList<Figura>();
     private List<Figura> feketek = new ArrayList<Figura>();
-
-
-    public void inic()
+    private Runnable onGameOverCallback;
+    public String feherNev;
+    public String feketeNev;
+    public Tabla(Runnable onGameOverCallback,String feher,String fekete)
     {
-        JFrame frame = new JFrame("Sakktabla");
+        feherNev=feher;
+        feketeNev=fekete;
+        this.onGameOverCallback = onGameOverCallback;
+        setupUI();
+    }
+
+
+    public void setupUI()
+    {
+
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
         frame.setLocationRelativeTo(null); // Ablak középre helyezése
+
 
         // Panel létrehozása az elemekhez
         JPanel panel = new JPanel();
@@ -120,14 +132,17 @@ public class Tabla {
         frame.add(panel);
         frame.setVisible(true);
         sakkVanLabel.setText("NINCS SAKK");
-        kiJonLabel.setText("FEHER JON");
+        kiJonLabel.setText(feherNev + " jön");
 
 
     }
 
-    public void elmeletiMatrix()
+    public void  jatekVege()
     {
-
+        if (onGameOverCallback != null) {
+            onGameOverCallback.run(); // Callback meghívása
+        }
+        frame.dispose();
     }
 
     public void kattintas(Mezo mezo)
@@ -197,24 +212,26 @@ public class Tabla {
         if(feketeJon)
         {
             feketek.remove(eredetiFigura);
-            kiJonLabel.setText("fekete jon");
+            kiJonLabel.setText(feketeNev+ " jon");
             if(feketeKiraly.sakkCheck(matrix)){
                 sakkVanLabel.setText("SAKK VAN");
                 if(mattCheck(feketek,feketeKiraly))
                 {
                     JOptionPane.showMessageDialog(null,"feher win");
+                    jatekVege();
                 }
             }
         }
         else
         {
             feherek.remove(eredetiFigura);
-            kiJonLabel.setText("feher jon");
+            kiJonLabel.setText(feherNev+ " jon");
             if(feherKiraly.sakkCheck(matrix)){
                 sakkVanLabel.setText("SAKK VAN");
                 if(mattCheck(feherek,feherKiraly))
                 {
                     JOptionPane.showMessageDialog(null,"fekete win");
+                    jatekVege();
                 }
             }
         }
@@ -233,7 +250,7 @@ public class Tabla {
     {
             for(Figura babu : csapat)
             {
-                Figura teszt =babu;
+
                 for(int i=0; i<8; i++)
                 {
                     for(int j=0; j<8;j++)

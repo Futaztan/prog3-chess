@@ -7,7 +7,9 @@ public class Main {
 //        mainmenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        mainmenu.pack();
 //        mainmenu.setVisible(true);
-        Tabla t = new Tabla();
-        t.inic();
+
+        Menu m = new Menu();
+        m.setupUI();
+       //t.inic();
     }
 }
