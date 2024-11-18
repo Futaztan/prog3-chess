@@ -9,7 +9,7 @@ public class Main {
 //        mainmenu.setVisible(true);
 
         Menu m = new Menu();
-        m.setupUI();
+
        //t.inic();
     }
 }

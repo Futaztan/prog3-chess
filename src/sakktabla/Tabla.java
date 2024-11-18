@@ -1,6 +1,7 @@
 package sakktabla;
 
 import figurak.*;
+import teszt.Jatekos;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,10 +25,12 @@ public class Tabla {
     private Runnable onGameOverCallback;
     public String feherNev;
     public String feketeNev;
-    public Tabla(Runnable onGameOverCallback,String feher,String fekete)
+    public Jatekos nyertes;
+    public Tabla(Runnable onGameOverCallback, String feher, String fekete, Jatekos nyertes)
     {
         feherNev=feher;
         feketeNev=fekete;
+        this.nyertes=nyertes;
         this.onGameOverCallback = onGameOverCallback;
         setupUI();
     }
@@ -125,8 +128,6 @@ public class Tabla {
             }
         }
 
-
-
         panel.add(kiJonLabel);
         panel.add(sakkVanLabel);
         frame.add(panel);
@@ -217,6 +218,7 @@ public class Tabla {
                 sakkVanLabel.setText("SAKK VAN");
                 if(mattCheck(feketek,feketeKiraly))
                 {
+                    nyertes.nev=feherNev;
                     JOptionPane.showMessageDialog(null,"feher win");
                     jatekVege();
                 }
@@ -230,6 +232,7 @@ public class Tabla {
                 sakkVanLabel.setText("SAKK VAN");
                 if(mattCheck(feherek,feherKiraly))
                 {
+                    nyertes.nev = feketeNev;
                     JOptionPane.showMessageDialog(null,"fekete win");
                     jatekVege();
                 }
