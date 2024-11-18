@@ -30,7 +30,11 @@ public class Huszar extends Figura {
     @Override
     public boolean lepesCheck(Mezo mezo,Mezo[][] matrix)
     {
-        return isBalLepes(mezo) || isJobbLepes(mezo) || isFelLepes(mezo) || isLeLepes(mezo);
+        boolean isSzabad=true;
+        if(mezo.getFigura()!=null && mezo.getFigura().isFekete==this.isFekete)
+            isSzabad=false;
+
+        return isSzabad && (isBalLepes(mezo) || isJobbLepes(mezo) || isFelLepes(mezo) || isLeLepes(mezo));
     }
 
     public boolean isBalLepes(Mezo mezo) {

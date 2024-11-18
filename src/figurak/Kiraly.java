@@ -49,12 +49,15 @@ public class Kiraly extends Figura {
     @Override
     public boolean lepesCheck(Mezo mezo,Mezo[][] matrix)
     {
-        return isNegyzetLepes(mezo);
+        boolean isSzabad=true;
+        if(mezo.getFigura()!=null && mezo.getFigura().isFekete==this.isFekete)
+            isSzabad=false;
+        return isSzabad && isNegyzetLepes(mezo);
     }
 
 
     public boolean isNegyzetLepes(Mezo mezo)
     {
-        return Math.abs(mezo.oszlop-this.oszlop)<=1 && Math.abs(mezo.sor-this.sor)<=1;
+        return  Math.abs(mezo.oszlop-this.oszlop)<=1 && Math.abs(mezo.sor-this.sor)<=1;
     }
 }

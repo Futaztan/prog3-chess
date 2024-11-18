@@ -125,8 +125,14 @@ public class Tabla {
 
     }
 
+    public void elmeletiMatrix()
+    {
+
+    }
+
     public void kattintas(Mezo mezo)
     {
+
         if(mezo.getFigura()!=null)
         {
             Figura f = mezo.getFigura();
@@ -154,7 +160,6 @@ public class Tabla {
            {
                if(feketeJon && feketeKiraly.sakkCheck(matrix))
                {
-
                    selected_figura.setSor(eredetiSor);
                    selected_figura.setOszlop(eredetiOszlop);
                    selected_mezo.setFigura(selected_figura);
@@ -175,13 +180,13 @@ public class Tabla {
                else{
                    sakkVanLabel.setText("NINCS SAKK");
                    //isSakkVan=false;
-                   sikeresLepes();
+                   sikeresLepes(eredetiFigura);
                }
            }
         }
     }
 
-    public void sikeresLepes()
+    public void sikeresLepes(Figura eredetiFigura)
     {
 
         selected_mezo.setFigura(null);
@@ -191,30 +196,74 @@ public class Tabla {
         //kövi kör
         if(feketeJon)
         {
+            feketek.remove(eredetiFigura);
             kiJonLabel.setText("fekete jon");
             if(feketeKiraly.sakkCheck(matrix)){
                 sakkVanLabel.setText("SAKK VAN");
-                mattCheck();
+                if(mattCheck(feketek,feketeKiraly))
+                {
+                    JOptionPane.showMessageDialog(null,"feher win");
+                }
             }
         }
         else
         {
+            feherek.remove(eredetiFigura);
             kiJonLabel.setText("feher jon");
             if(feherKiraly.sakkCheck(matrix)){
                 sakkVanLabel.setText("SAKK VAN");
-                mattCheck();
+                if(mattCheck(feherek,feherKiraly))
+                {
+                    JOptionPane.showMessageDialog(null,"fekete win");
+                }
             }
         }
     }
 
-    public void mattCheck()
+    public void hibasLepes(int eredetiSor, int eredetiOszlop, Mezo mezo, Icon eredetiIcon, Figura eredetiFigura, Figura currentFigura)
     {
-        if(feketeJon)
-        {
-            for(Figura babu : feketek)
+        currentFigura.setSor(eredetiSor);
+        currentFigura.setOszlop(eredetiOszlop);
+        matrix[eredetiSor][eredetiOszlop].setFigura(currentFigura);
+        mezo.setIcon(eredetiIcon);
+        mezo.setFigura(eredetiFigura);
+        sakkVanLabel.setText("HIBAS LEPES");
+    }
+    public boolean mattCheck(List<Figura> csapat, Kiraly csapatKiraly)
+    {
+            for(Figura babu : csapat)
             {
+                Figura teszt =babu;
+                for(int i=0; i<8; i++)
+                {
+                    for(int j=0; j<8;j++)
+                    {
+                        Mezo mezo = matrix[i][j];
+                        int eredetiSor = babu.getSor();
+                        int eredetiOszlop = babu.getOszlop();
+                        Icon eredetiIcon = mezo.getIcon();
+                        Figura eredetiFigura = mezo.getFigura();
+                        if(babu.lepes(mezo,matrix))
+                        {
+                            if(!csapatKiraly.sakkCheck(matrix))
+                            {
+                                babu.setSor(eredetiSor);
+                                babu.setOszlop(eredetiOszlop);
+                                matrix[eredetiSor][eredetiOszlop].setFigura(babu);
+                                mezo.setIcon(eredetiIcon);
+                                mezo.setFigura(eredetiFigura);
+                                return false;
+                            }
+                            babu.setSor(eredetiSor);
+                            babu.setOszlop(eredetiOszlop);
+                            matrix[eredetiSor][eredetiOszlop].setFigura(babu);
+                            mezo.setIcon(eredetiIcon);
+                            mezo.setFigura(eredetiFigura);
+                        }
 
+                    }
+                }
             }
-        }
+        return true;
     }
 }
