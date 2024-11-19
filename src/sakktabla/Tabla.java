@@ -7,6 +7,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
@@ -19,6 +24,7 @@ public class Tabla {
     public JLabel kiJonLabel= new JLabel();
     public JLabel sakkVanLabel = new JLabel();
     public JLabel utolsolepesLabel = new JLabel();
+    public JButton mentesButton;
     private Kiraly feketeKiraly;
     private Kiraly feherKiraly;
     private List<Figura> feherek = new ArrayList<Figura>();
@@ -131,6 +137,31 @@ public class Tabla {
             }
         }
 
+
+        mentesButton = new JButton("Mentes");
+        mentesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                AdatTarolo adatok = new AdatTarolo(lepesek,feketeJon);
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+                Date date = new Date();
+
+                String filename = formatter.format(date);
+                try {
+                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename));
+                    oos.writeObject(adatok);
+                    oos.close();
+                    JOptionPane.showMessageDialog(null,"Sikeres mentés");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+
+            }
+        });
+
+        panel.add(mentesButton);
         panel.add(kiJonLabel);
         panel.add(sakkVanLabel);
         panel.add(utolsolepesLabel);
