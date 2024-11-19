@@ -18,14 +18,17 @@ public class Tabla {
     private Mezo selected_mezo;
     public JLabel kiJonLabel= new JLabel();
     public JLabel sakkVanLabel = new JLabel();
+    public JLabel utolsolepesLabel = new JLabel();
     private Kiraly feketeKiraly;
     private Kiraly feherKiraly;
     private List<Figura> feherek = new ArrayList<Figura>();
     private List<Figura> feketek = new ArrayList<Figura>();
     private Runnable onGameOverCallback;
-    public String feherNev;
-    public String feketeNev;
-    public Jatekos nyertes;
+    private String feherNev;
+    private String feketeNev;
+    private Jatekos nyertes;
+    private List<Lepes> lepesek = new ArrayList<Lepes>();
+
     public Tabla(Runnable onGameOverCallback, String feher, String fekete, Jatekos nyertes)
     {
         feherNev=feher;
@@ -130,6 +133,7 @@ public class Tabla {
 
         panel.add(kiJonLabel);
         panel.add(sakkVanLabel);
+        panel.add(utolsolepesLabel);
         frame.add(panel);
         frame.setVisible(true);
         sakkVanLabel.setText("NINCS SAKK");
@@ -204,6 +208,9 @@ public class Tabla {
 
     public void sikeresLepes(Figura eredetiFigura)
     {
+
+        lepesek.add(new Lepes(selected_mezo.oszlop,selected_mezo.sor, selected_figura.getOszlop(),selected_figura.getSor()));
+        utolsolepesLabel.setText(lepesek.getLast().toString());
 
         selected_mezo.setFigura(null);
         selected_figura=null;
