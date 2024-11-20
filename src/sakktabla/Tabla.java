@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -43,7 +42,34 @@ public class Tabla {
         this.onGameOverCallback = onGameOverCallback;
         setupUI();
     }
+    public Tabla(Runnable onGameOverCallback, AdatTarolo adat, Jatekos nyertes)
+    {
+        feherNev=adat.getFehernev();
+        feketeNev=adat.getFeketenev();
+        this.nyertes=nyertes;
+        this.onGameOverCallback = onGameOverCallback;
+        lepesek = adat.getLepesek();
+        feketeJon = adat.isFeketeJon();
+        setupUI();
+        mentesBetoltes();
+    }
 
+    public void mentesBetoltes()
+    {
+        for(Lepes lepes : lepesek)
+        {
+            int honnanSor = Character.getNumericValue(lepes.getHonnan().charAt(0));
+            int honnanOszlop = Character.getNumericValue(lepes.getHonnan().charAt(1));
+            int hovaSor = Character.getNumericValue(lepes.getHova().charAt(0));
+            int hovaOszlop = Character.getNumericValue(lepes.getHova().charAt(1));
+            Mezo hova = matrix[hovaSor][hovaOszlop];
+            Mezo honnan =  matrix[honnanSor][honnanOszlop];
+            honnan.getFigura().lepes(hova,matrix);
+            honnan.setFigura(null);
+        }
+        if(feketeJon) kiJonLabel.setText(feketeNev + " jön");
+        else kiJonLabel.setText(feherNev+ " jön");
+    }
 
     public void setupUI()
     {
@@ -143,11 +169,11 @@ public class Tabla {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                AdatTarolo adatok = new AdatTarolo(lepesek,feketeJon);
+                AdatTarolo adatok = new AdatTarolo(lepesek,feketeJon,feherNev,feketeNev);
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
                 Date date = new Date();
 
-                String filename = formatter.format(date);
+                String filename = formatter.format(date)+".ser";
                 try {
                     ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename));
                     oos.writeObject(adatok);

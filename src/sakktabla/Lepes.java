@@ -15,8 +15,8 @@ public class Lepes implements Serializable {
     {
         honnanOszlop = o1;
         hovaOszlop = o2;
-        honnanSor =s1+1;
-        hovaSor = s2+1;
+        honnanSor =s1;
+        hovaSor = s2;
         honnanBetu = (char) ('a' + honnanOszlop);
         hovaBetu = (char) ('a' + hovaOszlop);
 
@@ -24,15 +24,15 @@ public class Lepes implements Serializable {
 
     public String getHonnan()
     {
-        return "" +honnanOszlop+honnanSor;
+        return "" +honnanSor+honnanOszlop;  //ezt vissza teszi a mátrixba
     }
     public String getHova()
     {
-        return ""+hovaOszlop+hovaSor;
+        return ""+hovaSor+hovaOszlop;
     }
 
     @Override
     public String toString() {
-        return ""+honnanBetu + honnanSor + " " + hovaBetu + hovaSor;
+        return ""+honnanBetu + (honnanSor+1) + " " + hovaBetu + (hovaSor+1);
     }
 }

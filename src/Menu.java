@@ -1,10 +1,14 @@
+import sakktabla.AdatTarolo;
 import sakktabla.Tabla;
 import teszt.Jatekos;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 import java.util.*;
+import java.util.List;
 
 public class Menu {
 
@@ -60,9 +64,9 @@ public class Menu {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
         JButton startButton = new JButton("Játék indítása");
-        JButton loadButton = new JButton("Menüpont 2");
+        JButton loadButton = new JButton("Játék betöltése");
         JButton toplistaButton = new JButton("Toplista");
-        JButton exitButton = new JButton("Kilépés");
+        JButton exitButton = new JButton("Kilépés"); //TODO
         // Margók hozzáadása
         startButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
         loadButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
@@ -117,6 +121,42 @@ public class Menu {
                 },feherNev,feketeNev,seged);
             }
         });
+
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle("Válassz egy fájlt");
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(".ser files", "ser");
+                fileChooser.setFileFilter(filter);
+                fileChooser.setAcceptAllFileFilterUsed(false);
+                int userSelection = fileChooser.showOpenDialog(null);
+                if(userSelection == JFileChooser.APPROVE_OPTION)
+                {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    //TODO FILE MEGNYITAS BEF
+                    System.out.println(selectedFile.getName());
+                    try {
+                        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(selectedFile));
+                        AdatTarolo adatok = (AdatTarolo) ois.readObject();
+                        Jatekos seged = new Jatekos("",0);
+                        String feherNev = adatok.getFehernev();
+                        String feketeNev = adatok.getFeketenev();
+                        Tabla t = new Tabla(() -> {
+                            frame.setVisible(true);
+                            eredmenyKezeles(seged.nev,feherNev,feketeNev);
+                        },adatok,seged);
+
+                    } catch (IOException | ClassNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
+
+            }
+        });
+
 
         toplistaButton.addActionListener(new ActionListener() {
             @Override
