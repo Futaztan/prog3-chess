@@ -1,6 +1,8 @@
+package fomenu;
+
 import sakktabla.AdatTarolo;
+import sakktabla.ReplayTabla;
 import sakktabla.Tabla;
-import teszt.Jatekos;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -10,24 +12,38 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
-public class Menu {
+public class Menu implements Serializable {
 
     private List<Jatekos> toplista = new ArrayList<Jatekos>();
    
     private JFrame frame = new JFrame("Fomenu");
 
-    public Menu() {
-        toplista.add(new Jatekos("asd1",0));
-        toplista.add(new Jatekos("asd2",5));
-        toplista.add(new Jatekos("asd3",10));
-        toplista.add(new Jatekos("asd4",3));
-        toplista.add(new Jatekos("asd5",0));
+    public Menu() throws IOException {
+//        toplista.add(new Jatekos("asd1",0));
+//        toplista.add(new Jatekos("asd2",5));
+//        toplista.add(new Jatekos("asd3",10));
+//        toplista.add(new Jatekos("asd4",3));
+//        toplista.add(new Jatekos("asd5",0));
 
 
+        listaBetoltes();
         setupUI();
+    }
+
+    public void listaBetoltes()
+    {
+        try {
+            String filename="toplista";
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
+            toplista = (List<Jatekos>) ois.readObject();
+
+        } catch (IOException | ClassNotFoundException ex) {
+            System.err.println("nincs toplista");
+        }
     }
 
     public void eredmenyKezeles(String nyertes, String feherNev, String feketeNev)
@@ -54,23 +70,56 @@ public class Menu {
             if(elem.nev.equals(nyertes))
                 elem.pont++;
         }
+
+
+            //TODO
+        String filename = "toplista";
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename));
+            oos.writeObject(toplista);
+            oos.close();
+            //JOptionPane.showMessageDialog(null,"Sikeres mentés");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
     }
 
-    public void setupUI() {
+    public void setupUI() throws IOException {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 400);
         //frame.setResizable(false);
+
 
 
         JPanel kontener = new JPanel(null); // Kézi pozicionálás a váltás miatt
         kontener.setLayout(new BoxLayout(kontener,BoxLayout.Y_AXIS));
 
         JPanel mainPanel = new JPanel();
-        mainPanel.setBackground(new Color(71, 68, 67));
+        //mainPanel.setBackground(new Color(71, 68, 67));
+
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
         JButton startButton = new JButton("Játék indítása");
+
+
+        startButton.setFocusPainted(false); // Eltávolítja a fókuszkeretet
+        startButton.setBackground(new Color(149,117 ,205 )); // Modern kék háttér
+        startButton.setForeground(Color.WHITE); // Fehér szöveg
+        startButton.setFont(new Font("Arial", Font.BOLD, 14)); // Modern, félkövér betűtípus
+        startButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Margók
+        startButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Kézkurzor hover állapotban
+
+
         JButton loadButton = new JButton("Játék betöltése");
+
+        loadButton.setFocusPainted(false); // Eltávolítja a fókuszkeretet
+        loadButton.setBackground(new Color(149,117 ,205 )); // Modern kék háttér
+        loadButton.setForeground(Color.WHITE); // Fehér szöveg
+        loadButton.setFont(new Font("Arial", Font.BOLD, 14)); // Modern, félkövér betűtípus
+        loadButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Margók
+        loadButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Kézkurzor hover állapotban
+
         JButton replayButton = new JButton("Játék visszanézése");
         JButton toplistaButton = new JButton("Toplista");
         JButton exitButton = new JButton("Kilépés");
@@ -175,7 +224,7 @@ public class Menu {
                 {
                     File selectedFile = fileChooser.getSelectedFile();
 
-                    System.out.println(selectedFile.getName());
+                    //System.out.println(selectedFile.getName());
                     try {
                         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(selectedFile));
                         AdatTarolo adatok = (AdatTarolo) ois.readObject();
@@ -185,7 +234,9 @@ public class Menu {
                         frame.setVisible(false);
                         Tabla t = new Tabla(() -> {
                             frame.setVisible(true);
-                            eredmenyKezeles(seged.nev,feherNev,feketeNev);
+                            if(!seged.nev.equals("")){
+                                eredmenyKezeles(seged.nev,feherNev,feketeNev);
+                            }
                         },adatok,seged);
 
                     } catch (IOException | ClassNotFoundException ex) {
@@ -217,7 +268,7 @@ public class Menu {
                         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(selectedFile));
                         AdatTarolo adatok = (AdatTarolo) ois.readObject();
                         frame.setVisible(false);
-                        Tabla t = new Tabla(() -> {
+                        ReplayTabla rt = new ReplayTabla(() -> {
                             frame.setVisible(true);
 
                         },adatok);

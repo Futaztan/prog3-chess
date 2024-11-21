@@ -1,6 +1,8 @@
-package teszt;
+package fomenu;
 
-public class Jatekos {
+import java.io.Serializable;
+
+public class Jatekos implements Serializable {
     public String nev;
     public int pont;
     public Jatekos(String n, int p)

@@ -1,15 +1,21 @@
-import sakktabla.Tabla;
+import fomenu.Menu;
+
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
 //        JFrame mainmenu = new JFrame();
-//        mainmenu.setContentPane(new Menu().panel1);
+//        mainmenu.setContentPane(new teszt.Menu().panel1);
 //        mainmenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        mainmenu.pack();
 //        mainmenu.setVisible(true);
 
-        Menu m = new Menu();
+        try {
+            Menu m = new Menu();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-       //t.inic();
+        //t.inic();
     }
 }
