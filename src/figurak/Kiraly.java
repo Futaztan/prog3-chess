@@ -38,10 +38,7 @@ public class Kiraly extends Figura {
 
         if(lepesCheck(mezo,matrix))
         {
-            matrix[this.sor][this.oszlop].setFigura(null);
-            mezo.setFigura(this);
-            this.sor=mezo.sor;
-            this.oszlop=mezo.oszlop;
+            mozgatas(mezo,matrix);
             return true;
         }
         return false;

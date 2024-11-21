@@ -23,6 +23,14 @@ public abstract boolean lepes(Mezo mezo,Mezo[][] matrix);
 //tud-e lépni az adott mezőre a figura
 public abstract boolean lepesCheck(Mezo mezo,Mezo[][] matrix);
 
+public void mozgatas(Mezo mezo, Mezo[][] matrix)
+{
+    matrix[this.sor][this.oszlop].setFigura(null);
+    mezo.setFigura(this);
+    this.sor=mezo.sor;
+    this.oszlop=mezo.oszlop;
+}
+
 
     public ImageIcon getIkon() {
         return ikon;

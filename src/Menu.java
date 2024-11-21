@@ -4,8 +4,11 @@ import teszt.Jatekos;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.*;
 import java.util.List;
@@ -56,27 +59,59 @@ public class Menu {
     public void setupUI() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 400);
+        //frame.setResizable(false);
+
 
         JPanel kontener = new JPanel(null); // Kézi pozicionálás a váltás miatt
         kontener.setLayout(new BoxLayout(kontener,BoxLayout.Y_AXIS));
 
         JPanel mainPanel = new JPanel();
+        mainPanel.setBackground(new Color(71, 68, 67));
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
         JButton startButton = new JButton("Játék indítása");
         JButton loadButton = new JButton("Játék betöltése");
+        JButton replayButton = new JButton("Játék visszanézése");
         JButton toplistaButton = new JButton("Toplista");
-        JButton exitButton = new JButton("Kilépés"); //TODO
+        JButton exitButton = new JButton("Kilépés");
         // Margók hozzáadása
         startButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
         loadButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        replayButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
         toplistaButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        exitButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
+
+
+        exitButton.setFont(new Font("Arial", Font.BOLD, 16));
+        exitButton.setForeground(Color.BLACK);
+        exitButton.setBackground(new Color(128,128,128));
+        exitButton.setFocusPainted(false);
+        exitButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
+        exitButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                exitButton.setBackground(new Color(56, 142, 60)); // Sötétebb zöld
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                exitButton.setBackground(new Color(76, 175, 80)); // Eredeti szín
+            }
+        });
+
+
+
         mainPanel.add(Box.createVerticalGlue()); // Üres tér felül
         mainPanel.add(startButton);
         mainPanel.add(Box.createVerticalStrut(30)); // Térköz
         mainPanel.add(loadButton);
         mainPanel.add(Box.createVerticalStrut(30)); // Térköz
+        mainPanel.add(replayButton);
+        mainPanel.add(Box.createVerticalStrut(30)); // Térköz
         mainPanel.add(toplistaButton);
+        mainPanel.add(Box.createVerticalStrut(30)); // Térköz
+        mainPanel.add(exitButton);
         mainPanel.add(Box.createVerticalGlue()); // Üres tér alul
         mainPanel.setVisible(true);
 
@@ -117,8 +152,12 @@ public class Menu {
                 frame.setVisible(false); // A fő ablak elrejtése
                 Tabla t = new Tabla(() -> { // Callback: amikor a Tabla véget ér
                     frame.setVisible(true);
-                    eredmenyKezeles(seged.nev,feherNev,feketeNev);
+                    if(!seged.nev.equals("")){
+                        eredmenyKezeles(seged.nev,feherNev,feketeNev);
+                    }
+
                 },feherNev,feketeNev,seged);
+
             }
         });
 
@@ -135,7 +174,7 @@ public class Menu {
                 if(userSelection == JFileChooser.APPROVE_OPTION)
                 {
                     File selectedFile = fileChooser.getSelectedFile();
-                    //TODO FILE MEGNYITAS BEF
+
                     System.out.println(selectedFile.getName());
                     try {
                         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(selectedFile));
@@ -143,6 +182,7 @@ public class Menu {
                         Jatekos seged = new Jatekos("",0);
                         String feherNev = adatok.getFehernev();
                         String feketeNev = adatok.getFeketenev();
+                        frame.setVisible(false);
                         Tabla t = new Tabla(() -> {
                             frame.setVisible(true);
                             eredmenyKezeles(seged.nev,feherNev,feketeNev);
@@ -155,6 +195,41 @@ public class Menu {
 
 
             }
+        });
+
+        replayButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle("Válassz egy fájlt");
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(".ser2 files", "ser2");
+                fileChooser.setFileFilter(filter);
+                fileChooser.setAcceptAllFileFilterUsed(false);
+                int userSelection = fileChooser.showOpenDialog(null);
+                if(userSelection == JFileChooser.APPROVE_OPTION)
+                {
+                    File selectedFile = fileChooser.getSelectedFile();
+
+                    System.out.println(selectedFile.getName());
+                    try {
+                        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(selectedFile));
+                        AdatTarolo adatok = (AdatTarolo) ois.readObject();
+                        frame.setVisible(false);
+                        Tabla t = new Tabla(() -> {
+                            frame.setVisible(true);
+
+                        },adatok);
+
+                    } catch (IOException | ClassNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+
+
+            }
+
         });
 
 
@@ -172,6 +247,13 @@ public class Menu {
                 output.append("</html>");
                 toplistaLabel.setText(output.toString());
                 toplistaPanel.setVisible(true);
+            }
+        });
+
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
             }
         });
 
