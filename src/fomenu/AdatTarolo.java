@@ -1,4 +1,6 @@
-package sakktabla;
+package fomenu;
+
+import sakktabla.Lepes;
 
 import java.io.Serializable;
 import java.util.ArrayList;

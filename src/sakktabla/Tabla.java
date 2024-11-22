@@ -1,6 +1,7 @@
 package sakktabla;
 
 import figurak.*;
+import fomenu.AdatTarolo;
 import fomenu.Jatekos;
 
 import javax.swing.*;

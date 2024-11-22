@@ -1,6 +1,5 @@
 package fomenu;
 
-import sakktabla.AdatTarolo;
 import sakktabla.ReplayTabla;
 import sakktabla.Tabla;
 
@@ -12,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
