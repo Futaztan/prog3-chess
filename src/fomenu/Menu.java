@@ -196,7 +196,8 @@ public class Menu implements Serializable {
                         },adatok,seged);
 
                     } catch (IOException | ClassNotFoundException ex) {
-                        throw new RuntimeException(ex);
+                        JOptionPane.showMessageDialog(null,"Hibás file");
+                        System.err.println(ex);
                     }
                 }
 
@@ -230,7 +231,8 @@ public class Menu implements Serializable {
                         },adatok);
 
                     } catch (IOException | ClassNotFoundException ex) {
-                        throw new RuntimeException(ex);
+                        JOptionPane.showMessageDialog(null,"Hibás file");
+                        System.err.println(ex);
                     }
                 }
 
