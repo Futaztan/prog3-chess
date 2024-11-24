@@ -4,15 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URL;
 import javax.imageio.ImageIO;
 
 public class BackgroundPanel extends JPanel {
     private BufferedImage backgroundImage;
 
-    public BackgroundPanel(String imagePath) {
+    public BackgroundPanel(URL imagePath) {
         try {
-
-            backgroundImage = ImageIO.read(new File(imagePath));
+            File f = new File(imagePath.toURI());
+            backgroundImage = ImageIO.read(f);
         } catch (Exception e) {
             e.printStackTrace();
         }

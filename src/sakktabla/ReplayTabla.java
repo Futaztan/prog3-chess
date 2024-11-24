@@ -3,25 +3,27 @@ package sakktabla;
 import figurak.*;
 import fomenu.AdatTarolo;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class ReplayTabla  extends Tabla{
 
-    public ReplayTabla(Runnable onGameOverCallback, AdatTarolo adat) {
+    public ReplayTabla(Runnable onGameOverCallback, AdatTarolo adat) throws IOException {
         super(onGameOverCallback, adat);
         replayUI();
     }
 
-    public void replayUI()
-    {
+    public void replayUI() throws IOException {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
         frame.setLocationRelativeTo(null);
-
+        Image icon = ImageIO.read(this.getClass().getResource("/ikonok/icon.png"));
+        frame.setIconImage(icon);
 
         // Panel létrehozása az elemekhez
         JPanel panel = new JPanel();
@@ -75,7 +77,7 @@ public class ReplayTabla  extends Tabla{
                 if ((i + j) % 2 == 0) {
                     matrix[i][j].setBackground(Color.WHITE); // Világos mező
                 } else {
-                    matrix[i][j].setBackground(Color.LIGHT_GRAY); // Sötét mező
+                    matrix[i][j].setBackground(Color.GRAY); // Sötét mező
                 }
 
                 panel.add(matrix[i][j]);

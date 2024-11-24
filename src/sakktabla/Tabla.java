@@ -4,6 +4,7 @@ import figurak.*;
 import fomenu.AdatTarolo;
 import fomenu.Jatekos;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -35,8 +36,7 @@ public class Tabla {
     private Jatekos nyertes;
     protected List<Lepes> lepesek = new ArrayList<Lepes>();
 
-    public Tabla(Runnable onGameOverCallback, String feher, String fekete, Jatekos nyertes)
-    {
+    public Tabla(Runnable onGameOverCallback, String feher, String fekete, Jatekos nyertes) throws IOException {
         feherNev=feher;
         feketeNev=fekete;
         this.nyertes=nyertes;
@@ -44,8 +44,7 @@ public class Tabla {
         jatekUI();
 
     }
-    public Tabla(Runnable onGameOverCallback, AdatTarolo adat, Jatekos nyertes)
-    {
+    public Tabla(Runnable onGameOverCallback, AdatTarolo adat, Jatekos nyertes) throws IOException {
         feherNev=adat.getFehernev();
         feketeNev=adat.getFeketenev();
         this.nyertes=nyertes;
@@ -81,15 +80,15 @@ public class Tabla {
         else kiJonLabel.setText(feherNev+ " jön");
     }
 
-    public void jatekUI()
-    {
+    public void jatekUI() throws IOException {
 
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-
+        Image icon = ImageIO.read(this.getClass().getResource("/ikonok/icon.png"));
+        frame.setIconImage(icon);
 
         // Panel létrehozása az elemekhez
         JPanel panel = new JPanel();
@@ -142,7 +141,7 @@ public class Tabla {
                 if ((i + j) % 2 == 0) {
                     matrix[i][j].setBackground(Color.WHITE); // Világos mező
                 } else {
-                    matrix[i][j].setBackground(Color.LIGHT_GRAY); // Sötét mező
+                    matrix[i][j].setBackground(Color.GRAY); // Sötét mező
                 }
 
                 final int row =i;

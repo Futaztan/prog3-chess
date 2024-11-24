@@ -9,7 +9,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 import java.util.List;
@@ -85,12 +84,14 @@ public class Menu implements Serializable {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
         frame.setResizable(false);
+        Image icon = ImageIO.read(this.getClass().getResource("/ikonok/icon.png"));
+        frame.setIconImage(icon);
 
 
         JPanel kontener = new JPanel(null); // Kézi pozicionálás a váltás miatt
         kontener.setLayout(new BoxLayout(kontener,BoxLayout.Y_AXIS));
 
-        BackgroundPanel mainPanel = new BackgroundPanel("bg.png");
+        BackgroundPanel mainPanel = new BackgroundPanel(this.getClass().getResource("/ikonok/bg.png"));
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
 
@@ -141,22 +142,26 @@ public class Menu implements Serializable {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String feherNev=JOptionPane.showInputDialog(null,"1. jatekos neve");
-                String feketeNev=JOptionPane.showInputDialog(null,"2. jatekos neve");
-                if(feherNev.isEmpty() || feketeNev.isEmpty())
+                String feherNev=JOptionPane.showInputDialog(null,"1. játékos neve");
+                String feketeNev=JOptionPane.showInputDialog(null,"2. játékos neve");
+                if(feherNev==null || feketeNev==null || feherNev.isBlank() || feketeNev.isBlank() || feherNev.isEmpty() || feketeNev.isEmpty() || feherNev.equals(feketeNev))
                 {
-                    JOptionPane.showMessageDialog(null,"Hibas nev");
+                    JOptionPane.showMessageDialog(null,"Hibás nevek");
                     return;
                 }
                 Jatekos seged = new Jatekos("",0);
                 frame.setVisible(false);
-                Tabla t = new Tabla(() -> { // Callback: amikor a Tabla véget ér
-                    frame.setVisible(true);
-                    if(!seged.nev.equals("")){
-                        eredmenyKezeles(seged.nev,feherNev,feketeNev);
-                    }
+                try {
+                    Tabla t = new Tabla(() -> { // Callback: amikor a Tabla véget ér
+                        frame.setVisible(true);
+                        if(!seged.nev.equals("")){
+                            eredmenyKezeles(seged.nev,feherNev,feketeNev);
+                        }
 
-                },feherNev,feketeNev,seged);
+                    },feherNev,feketeNev,seged);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
 
             }
         });
@@ -249,6 +254,7 @@ public class Menu implements Serializable {
                 output.append("</html>");
                 toplistaLabel.setText(output.toString());
                 toplistaLabel.setForeground(Color.white);
+                toplistaLabel.setFont(new Font("Arial", Font.BOLD, 14));
                 toplistaPanel.setVisible(true);
             }
         });
@@ -275,7 +281,7 @@ public class Menu implements Serializable {
     {
         JButton btn = new JButton(szoveg);
         btn.setFocusPainted(false);
-        btn.setBackground(new Color(67, 63, 77));
+        btn.setBackground(new Color(51, 49, 59));
         btn.setForeground(Color.WHITE);
         btn.setFont(new Font("Arial", Font.BOLD, 14));
         btn.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
