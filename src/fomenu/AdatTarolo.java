@@ -12,7 +12,7 @@ public class AdatTarolo implements Serializable {
     private boolean feketeJon;
     private String fehernev;
     private String feketenev;
-    private boolean isVege;
+
 
     public AdatTarolo(List<Lepes> l, boolean fjon,String feher, String fekete,boolean vege)
     {
@@ -20,7 +20,7 @@ public class AdatTarolo implements Serializable {
         feketeJon=fjon;
         fehernev=feher;
         feketenev=fekete;
-        isVege =vege;
+
     }
 
     public String getFehernev() {

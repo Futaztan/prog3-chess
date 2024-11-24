@@ -62,7 +62,6 @@ public class Tabla {
         this.onGameOverCallback = onGameOverCallback;
         lepesek = adat.getLepesek();
         feketeJon = adat.isFeketeJon();
-       // replayUI();
     }
 
     public void mentesBetoltes()
@@ -88,16 +87,15 @@ public class Tabla {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
-        frame.setLocationRelativeTo(null); // Ablak középre helyezése
+        frame.setLocationRelativeTo(null);
         frame.setResizable(false);
 
 
         // Panel létrehozása az elemekhez
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(9,8,0,0));
-        //TODO: BAL SAROKBÓL JOBBRA KEZDI FELÉPITENI
 
-
+        //BAL SAROKBÓL JOBBRA KEZDI FELÉPITENI
         matrix[0][0] = new Mezo(new Bastya(true,0,0),0,0);
         matrix[0][1] = new Mezo(new Huszar(true,0,1),0,1);
         matrix[0][2] = new Mezo(new Futo(true,0,2),0,2);
@@ -113,7 +111,7 @@ public class Tabla {
         {
             for(int col=0; col<8;col++)
             {
-                //icon = new ImageIcon("feher-huszar.png");
+
                 if(row==1){
                     matrix[row][col]= new Mezo(new Paraszt(true,row,col),row,col);
                 }
@@ -138,9 +136,9 @@ public class Tabla {
         {
             for(int j=0; j<8;j++)
             {
-                matrix[i][j].setFocusPainted(false); // Fókusz keret kikapcsolása
-                matrix[i][j].setBorderPainted(false); // Szegély kikapcsolása
-                matrix[i][j].setContentAreaFilled(true); // Kitöltés megtartása, de nyomás effekt nélkül
+                matrix[i][j].setFocusPainted(false);
+                matrix[i][j].setBorderPainted(false); //nem jelöli a kattintott gombot
+                matrix[i][j].setContentAreaFilled(true);
                 if ((i + j) % 2 == 0) {
                     matrix[i][j].setBackground(Color.WHITE); // Világos mező
                 } else {
@@ -152,7 +150,6 @@ public class Tabla {
                 matrix[i][j].addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                       //matrix[row][col].setBackground(Color.red);
                         kattintas(matrix[row][col]);
 
                     }
@@ -302,7 +299,6 @@ public class Tabla {
                }
                else{
                    sakkVanLabel.setText("");
-                   //isSakkVan=false;
                    sikeresLepes(eredetiFigura);
                }
            }
@@ -361,7 +357,7 @@ public class Tabla {
     }
     public boolean mattCheck(List<Figura> csapat, Kiraly csapatKiraly)
     {
-            for(Figura babu : csapat)
+            for(Figura babu : csapat)           //megnézi hogy sakk matt van e
             {
 
                 for(int i=0; i<8; i++)
@@ -377,7 +373,7 @@ public class Tabla {
                         {
                             if(!csapatKiraly.sakkCheck(matrix))
                             {
-                                babu.setSor(eredetiSor);
+                                babu.setSor(eredetiSor); //léptetés vissza állítása
                                 babu.setOszlop(eredetiOszlop);
                                 matrix[eredetiSor][eredetiOszlop].setFigura(babu);
                                 mezo.setIcon(eredetiIcon);

@@ -3,13 +3,13 @@ package fomenu;
 import sakktabla.ReplayTabla;
 import sakktabla.Tabla;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 import java.util.List;
@@ -69,8 +69,6 @@ public class Menu implements Serializable {
                 elem.pont++;
         }
 
-
-            //TODO
         String filename = "toplista";
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename));
@@ -85,79 +83,32 @@ public class Menu implements Serializable {
 
     public void setupUI() throws IOException {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
-        //frame.setResizable(false);
-
+        frame.setSize(500, 500);
+        frame.setResizable(false);
 
 
         JPanel kontener = new JPanel(null); // Kézi pozicionálás a váltás miatt
         kontener.setLayout(new BoxLayout(kontener,BoxLayout.Y_AXIS));
 
-        JPanel mainPanel = new JPanel();
-        //mainPanel.setBackground(new Color(71, 68, 67));
-
+        BackgroundPanel mainPanel = new BackgroundPanel("bg.png");
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setAlignmentX(JPanel.CENTER_ALIGNMENT);
-        JButton startButton = new JButton("Játék indítása");
 
-
-        startButton.setFocusPainted(false); // Eltávolítja a fókuszkeretet
-        startButton.setBackground(new Color(149,117 ,205 )); // Modern kék háttér
-        startButton.setForeground(Color.WHITE); // Fehér szöveg
-        startButton.setFont(new Font("Arial", Font.BOLD, 14)); // Modern, félkövér betűtípus
-        startButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Margók
-        startButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Kézkurzor hover állapotban
-
-
-        JButton loadButton = new JButton("Játék betöltése");
-
-        loadButton.setFocusPainted(false); // Eltávolítja a fókuszkeretet
-        loadButton.setBackground(new Color(149,117 ,205 )); // Modern kék háttér
-        loadButton.setForeground(Color.WHITE); // Fehér szöveg
-        loadButton.setFont(new Font("Arial", Font.BOLD, 14)); // Modern, félkövér betűtípus
-        loadButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20)); // Margók
-        loadButton.setCursor(new Cursor(Cursor.HAND_CURSOR)); // Kézkurzor hover állapotban
-
-        JButton replayButton = new JButton("Játék visszanézése");
-        JButton toplistaButton = new JButton("Toplista");
-        JButton exitButton = new JButton("Kilépés");
-        // Margók hozzáadása
-        startButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
-        loadButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
-        replayButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
-        toplistaButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
-        exitButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
-
-
-        exitButton.setFont(new Font("Arial", Font.BOLD, 16));
-        exitButton.setForeground(Color.BLACK);
-        exitButton.setBackground(new Color(128,128,128));
-        exitButton.setFocusPainted(false);
-        exitButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-
-        exitButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                exitButton.setBackground(new Color(56, 142, 60)); // Sötétebb zöld
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                exitButton.setBackground(new Color(76, 175, 80)); // Eredeti szín
-            }
-        });
-
-
+        JButton startButton = ButtonDesign("Játék indítása");
+        JButton loadButton = ButtonDesign("Játék betöltése");
+        JButton replayButton = ButtonDesign("Játék visszanézése");
+        JButton toplistaButton = ButtonDesign("Toplista");
+        JButton exitButton = ButtonDesign("Kilépés");
 
         mainPanel.add(Box.createVerticalGlue()); // Üres tér felül
         mainPanel.add(startButton);
-        mainPanel.add(Box.createVerticalStrut(30)); // Térköz
+        mainPanel.add(Box.createVerticalStrut(15)); // Térköz
         mainPanel.add(loadButton);
-        mainPanel.add(Box.createVerticalStrut(30)); // Térköz
+        mainPanel.add(Box.createVerticalStrut(15)); // Térköz
         mainPanel.add(replayButton);
-        mainPanel.add(Box.createVerticalStrut(30)); // Térköz
+        mainPanel.add(Box.createVerticalStrut(15)); // Térköz
         mainPanel.add(toplistaButton);
-        mainPanel.add(Box.createVerticalStrut(30)); // Térköz
+        mainPanel.add(Box.createVerticalStrut(15)); // Térköz
         mainPanel.add(exitButton);
         mainPanel.add(Box.createVerticalGlue()); // Üres tér alul
         mainPanel.setVisible(true);
@@ -165,6 +116,8 @@ public class Menu implements Serializable {
         // Toplista panel
         JPanel toplistaPanel = new JPanel();
         toplistaPanel.setLayout(new BoxLayout(toplistaPanel, BoxLayout.Y_AXIS));
+        toplistaPanel.setBackground(new Color(67, 63, 77));
+        kontener.setBackground(new Color(67, 63, 77));
         //Lista output rendezes
         JLabel toplistaLabel = new JLabel("toplista");
         toplistaLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -174,7 +127,7 @@ public class Menu implements Serializable {
         visszaButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
 
         toplistaPanel.add(toplistaLabel);
-        toplistaPanel.add(Box.createVerticalStrut(30)); // Térköz
+        toplistaPanel.add(Box.createVerticalStrut(30));
         toplistaPanel.add(visszaButton);
         toplistaPanel.setVisible(false);
 
@@ -182,7 +135,7 @@ public class Menu implements Serializable {
         kontener.add(mainPanel);
         kontener.add(toplistaPanel);
         frame.setContentPane(kontener);
-        frame.setLocationRelativeTo(null); // Ablak középre helyezése
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
         startButton.addActionListener(new ActionListener() {
@@ -196,7 +149,7 @@ public class Menu implements Serializable {
                     return;
                 }
                 Jatekos seged = new Jatekos("",0);
-                frame.setVisible(false); // A fő ablak elrejtése
+                frame.setVisible(false);
                 Tabla t = new Tabla(() -> { // Callback: amikor a Tabla véget ér
                     frame.setVisible(true);
                     if(!seged.nev.equals("")){
@@ -295,6 +248,7 @@ public class Menu implements Serializable {
                 }
                 output.append("</html>");
                 toplistaLabel.setText(output.toString());
+                toplistaLabel.setForeground(Color.white);
                 toplistaPanel.setVisible(true);
             }
         });
@@ -315,6 +269,20 @@ public class Menu implements Serializable {
         });
 
 
+    }
+
+    private JButton ButtonDesign(String szoveg)
+    {
+        JButton btn = new JButton(szoveg);
+        btn.setFocusPainted(false);
+        btn.setBackground(new Color(67, 63, 77));
+        btn.setForeground(Color.WHITE);
+        btn.setFont(new Font("Arial", Font.BOLD, 14));
+        btn.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btn.setAlignmentX(JButton.CENTER_ALIGNMENT);
+        btn.setMaximumSize(new Dimension(200,100));
+        return btn;
     }
 }
 

@@ -20,7 +20,7 @@ public class ReplayTabla  extends Tabla{
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
-        frame.setLocationRelativeTo(null); // Ablak középre helyezése
+        frame.setLocationRelativeTo(null);
 
 
         // Panel létrehozása az elemekhez
@@ -68,27 +68,16 @@ public class ReplayTabla  extends Tabla{
         {
             for(int j=0; j<8;j++)
             {
-                matrix[i][j].setEnabled(false);//TODO NEM JO A DISABLED SZINE
+                matrix[i][j].setFocusPainted(false);
+                matrix[i][j].setBorderPainted(false);
+                matrix[i][j].setContentAreaFilled(true);
 
-                matrix[i][j].setFocusPainted(false); // Fókusz keret kikapcsolása
-                matrix[i][j].setBorderPainted(false); // Szegély kikapcsolása
-                matrix[i][j].setContentAreaFilled(true); // Kitöltés megtartása, de nyomás effekt nélkül
                 if ((i + j) % 2 == 0) {
                     matrix[i][j].setBackground(Color.WHITE); // Világos mező
                 } else {
-                    matrix[i][j].setBackground(Color.PINK); // Sötét mező
+                    matrix[i][j].setBackground(Color.LIGHT_GRAY); // Sötét mező
                 }
 
-                final int row =i;
-                final int col =j;
-                matrix[i][j].addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        //matrix[row][col].setBackground(Color.red);
-                        kattintas(matrix[row][col]);
-
-                    }
-                });
                 panel.add(matrix[i][j]);
             }
         }
@@ -164,11 +153,6 @@ public class ReplayTabla  extends Tabla{
                 }
             }
         });
-
-
-
-
-
 
         panel.add(elozoButton);
         panel.add(kovetkezoButton);
