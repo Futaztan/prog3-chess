@@ -6,6 +6,7 @@ import sakktabla.Tabla;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +21,7 @@ public class Menu implements Serializable {
     private JFrame frame = new JFrame("Fomenu");
 
     public Menu() throws IOException {
+        listaBetoltes();
 //        toplista.add(new Jatekos("asd1",0));
 //        toplista.add(new Jatekos("asd2",5));
 //        toplista.add(new Jatekos("asd3",10));
@@ -27,7 +29,7 @@ public class Menu implements Serializable {
 //        toplista.add(new Jatekos("asd5",0));
 
 
-        listaBetoltes();
+
         setupUI();
     }
 
@@ -117,10 +119,10 @@ public class Menu implements Serializable {
         // Toplista panel
         JPanel toplistaPanel = new JPanel();
         toplistaPanel.setLayout(new BoxLayout(toplistaPanel, BoxLayout.Y_AXIS));
-        toplistaPanel.setBackground(new Color(67, 63, 77));
+        toplistaPanel.setBackground(new Color(42, 42, 47));
         kontener.setBackground(new Color(67, 63, 77));
         //Lista output rendezes
-        JLabel toplistaLabel = new JLabel("toplista");
+        JLabel toplistaLabel = new JLabel("Toplista");
         toplistaLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         toplistaLabel.setHorizontalAlignment(SwingConstants.CENTER);  // Vízszintes középre igazítás
         toplistaLabel.setVerticalAlignment(SwingConstants.CENTER);    // Függőleges középre igazítás
@@ -129,7 +131,7 @@ public class Menu implements Serializable {
 
         toplistaPanel.add(toplistaLabel);
         toplistaPanel.add(Box.createVerticalStrut(30));
-        toplistaPanel.add(visszaButton);
+        //toplistaPanel.add(visszaButton);
         toplistaPanel.setVisible(false);
 
         //kontenerbe adas
@@ -247,16 +249,34 @@ public class Menu implements Serializable {
             public void actionPerformed(ActionEvent e)
             {
                 mainPanel.setVisible(false);
+                toplistaPanel.add(visszaButton);
                 toplista.sort(Comparator.comparingInt(Jatekos::getPont).reversed());
-                StringBuilder output = new StringBuilder("<html> Név | Győzelmek<br>");
-                for(Jatekos elem : toplista)
-                {
-                    output.append(elem.nev+" "+elem.pont +"<br>");
+                String[] oszlopok = {"Név", "Pontok"};
+                Object[][] tableData = new Object[toplista.size()][2];
+                for (int i = 0; i < toplista.size(); i++) {
+                    tableData[i][0] = toplista.get(i).nev;  // Név
+                    tableData[i][1] = toplista.get(i).getPont();  // Pontok
                 }
-                output.append("</html>");
-                toplistaLabel.setText(output.toString());
-                toplistaLabel.setForeground(Color.white);
-                toplistaLabel.setFont(new Font("Arial", Font.BOLD, 14));
+                DefaultTableModel tableModel = new DefaultTableModel(tableData, oszlopok) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false; //nem lehet editelni a rekordokat
+                    }
+                };
+                JTable table = new JTable(tableModel);
+                table.setBackground(new Color(51, 51, 51));
+                table.setForeground(Color.WHITE);
+                table.setGridColor(new Color(102, 102, 102)); // rácsvonalak színe
+                table.setFont(new Font("Arial", Font.PLAIN, 14));
+                table.setRowHeight(25);
+                table.setCellSelectionEnabled(false);
+
+                // Görgetősáv és szülő komponens színezése
+                JScrollPane scroll = new JScrollPane(table);
+                scroll.getViewport().setBackground(new Color(42, 42, 47)); // Görgetősáv nézeti háttér
+                scroll.setBorder(BorderFactory.createEmptyBorder()); // Görgetősáv határainak eltüntetése
+                scroll.setBackground(new Color(42, 42, 47));
+                toplistaPanel.add(scroll);
                 toplistaPanel.setVisible(true);
             }
         });
@@ -271,7 +291,9 @@ public class Menu implements Serializable {
         visszaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 toplistaPanel.setVisible(false);
+                toplistaPanel.removeAll();
                 mainPanel.setVisible(true);
             }
         });
@@ -283,7 +305,7 @@ public class Menu implements Serializable {
     {
         JButton btn = new JButton(szoveg);
         btn.setFocusPainted(false);
-        btn.setBackground(new Color(51, 49, 59));
+        btn.setBackground(new Color(42, 42, 47));
         btn.setForeground(Color.WHITE);
         btn.setFont(new Font("Arial", Font.BOLD, 14));
         btn.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
