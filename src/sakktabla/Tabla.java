@@ -8,7 +8,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -163,13 +162,7 @@ public class Tabla {
 
                 final int row =i;
                 final int col =j;
-                matrix[i][j].addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        kattintas(matrix[row][col]);
-
-                    }
-                });
+                matrix[i][j].addActionListener(e ->  mezoKattintas(matrix[row][col]));
                 panel.add(matrix[i][j]);
             }
         }
@@ -190,34 +183,9 @@ public class Tabla {
 
 //////////////////////////////
         mentesButton = new JButton("Mentes");
-        mentesButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                AdatTarolo adatok = new AdatTarolo(lepesek,feketeJon,feherNev,feketeNev,false);
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-                Date date = new Date();
-
-                String filename = formatter.format(date)+".ser";
-                try {
-                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename));
-                    oos.writeObject(adatok);
-                    oos.close();
-                    JOptionPane.showMessageDialog(null,"Sikeres mentés");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-
-            }
-        });
+        mentesButton.addActionListener(this::handleMentesButton);
         JButton exitButton = new JButton("Kilépés");
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                exitToMenu();
-            }
-        });
+        exitButton.addActionListener(e -> exitToMenu());
 
         panel.add(mentesButton);
         panel.add(new JPanel()); //üres tér
@@ -277,7 +245,7 @@ public class Tabla {
      * @param mezo a mező amire kattintott a felhasználó
      *
      */
-    public void kattintas(Mezo mezo)
+    public void mezoKattintas(Mezo mezo)
     {
 
         if(mezo.getFigura()!=null)
@@ -431,8 +399,27 @@ public class Tabla {
         return true;
     }
 
-    private handleStartButton(ActionEvent e)
+
+    /**
+     * Kezeli a mentés gombot, elmenti a meccs jelenlegi állását
+     */
+    public void handleMentesButton(ActionEvent e)
     {
+        AdatTarolo adatok = new AdatTarolo(lepesek,feketeJon,feherNev,feketeNev,false);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        Date date = new Date();
+
+        String filename = formatter.format(date)+".ser";
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename));
+            oos.writeObject(adatok);
+            oos.close();
+            JOptionPane.showMessageDialog(null,"Sikeres mentés");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
 
     }
+
+
 }
