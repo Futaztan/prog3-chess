@@ -34,6 +34,12 @@ public class Paraszt extends Figura {
         return isBasicLepes(mezo) || isDuplaLepes(mezo) || isLeutesLepes(mezo);
     }
 
+
+    /**
+     * A szimpla egyet előre lépés ellenőrzi
+     * @param mezo a mező ahová lépni akar
+     * @return true ha érvényes lépés
+     */
     public boolean isBasicLepes(Mezo mezo)
     {
         if(!this.isFekete){
@@ -46,6 +52,12 @@ public class Paraszt extends Figura {
                 mezo.sor==this.sor+1;
 
     }
+
+    /**
+     * A 2-t előre lépést ellenőrzi, ha még a kezdő helyén van
+     * @param mezo a mező ahová lépni akar
+     * @return true ha érvényes a lépés
+     */
     public boolean isDuplaLepes(Mezo mezo)
     {
         if(!this.isFekete){
@@ -59,6 +71,12 @@ public class Paraszt extends Figura {
                 mezo.sor==this.sor+2;
     }
 
+
+    /**
+     * Az átlós lépést ellenőrzi, ami csak akkor lesz érvényes ha leüt közben egy ellenséges bábut
+     * @param mezo a mező ahová lépni akar
+     * @return true ha érvényes a lépés
+     */
     public boolean isLeutesLepes(Mezo mezo)
     {
         if(!this.isFekete){

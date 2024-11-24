@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * A mentéshez szükséges adatokat menti le
+ * Meccs betöltés és a visszanézés is ezt használja
+ */
 public class AdatTarolo implements Serializable {
     private List<Lepes> lepesek = new ArrayList<Lepes>();
     private boolean feketeJon;

@@ -30,6 +30,12 @@ public class Bastya extends Figura {
         return isOszlopSorLepes(mezo,matrix);
     }
 
+    /**
+     * Megnézi, hogy a bástyával egy sorban vagy oszlopban van e a mező
+     * @param mezo A mező ahová lépni akar a figura
+     * @param matrix a sakktábla mátrix
+     * @return true ha érvényes lépés
+     */
     public boolean isOszlopSorLepes(Mezo mezo,Mezo[][] matrix){
 
         String mezopozicio;

@@ -28,6 +28,13 @@ public class Futo extends Figura {
     {
         return isAtloLepes(mezo, matrix);
     }
+
+    /**
+     * A futó átló lépéseit ellenőrzi
+     * @param mezo A mező ahová lépni akar a figura
+     * @param matrix a sakktábla mátrix
+     * @return true ha érvényes lépés
+     */
     public boolean isAtloLepes(Mezo mezo,Mezo[][] matrix)
     {
         int hatarJobbLe=7;

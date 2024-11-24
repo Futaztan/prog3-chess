@@ -7,6 +7,9 @@ import java.io.File;
 import java.net.URL;
 import javax.imageio.ImageIO;
 
+/**
+ * Egy segéd osztály, ami egy olyan JPanelt valósít meg, aminek lehet képpel hátteret adni
+ */
 public class BackgroundPanel extends JPanel {
     private BufferedImage backgroundImage;
 

@@ -1,7 +1,7 @@
 package test;
 
 import figurak.*;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sakktabla.Mezo;
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,8 +15,8 @@ public class LepesTests {
     static Kiralyno kiralyno;
     static Paraszt paraszt;
 
-    @BeforeAll
-    public static void tablaSetup()
+    @BeforeEach
+    public void tablaSetup()
     {
         for(int row=0; row<4;row++)
         {
@@ -68,6 +68,13 @@ public class LepesTests {
         assertFalse(bastya.lepesCheck(hova,matrix));
         hova = matrix[6][4];
         assertFalse(bastya.lepesCheck(hova,matrix));
+
+        bastya.lepes(hova,matrix);
+        assertNotEquals(hova.getFigura(), bastya);
+        hova = matrix[7][0];
+        bastya.lepes(hova,matrix);
+        assertEquals(hova.getFigura(), bastya);
+
     }
 
     @Test
@@ -82,10 +89,18 @@ public class LepesTests {
 
         hova = matrix[5][0];
         assertTrue(futo.lepesCheck(hova,matrix));
-        hova = matrix[5][1];
-        assertFalse(futo.lepesCheck(hova,matrix));
         hova = matrix[5][2];
         assertTrue(futo.lepesCheck(hova,matrix));
+        hova = matrix[5][1];
+        assertFalse(futo.lepesCheck(hova,matrix));
+
+        futo.lepes(hova,matrix);
+        assertNotEquals(hova.getFigura(),futo);
+        hova = matrix[5][2];
+        futo.lepes(hova,matrix);
+        assertEquals(hova.getFigura(),futo);
+
+
     }
 
     @Test
@@ -100,11 +115,16 @@ public class LepesTests {
 
         hova = matrix[2][1];
         assertTrue(huszar.lepesCheck(hova,matrix));
-        hova = matrix[2][2];
-        assertFalse(huszar.lepesCheck(hova,matrix));
         hova = matrix[2][3];
         assertTrue(huszar.lepesCheck(hova,matrix));
+        hova = matrix[2][2];
+        assertFalse(huszar.lepesCheck(hova,matrix));
 
+        huszar.lepes(hova,matrix);
+        assertNotEquals(hova.getFigura(),huszar);
+        hova = matrix[2][3];
+        huszar.lepes(hova,matrix);
+        assertEquals(hova.getFigura(),huszar);
     }
 
     @Test
@@ -116,6 +136,12 @@ public class LepesTests {
         assertTrue(kiraly.lepesCheck(hova,matrix));
         hova = matrix[4][2];
         assertFalse(kiraly.lepesCheck(hova,matrix)); //false mert áll ott egy másik fekete figura
+
+        kiraly.lepes(hova,matrix);
+        assertNotEquals(hova.getFigura(),kiraly);
+        hova = matrix[5][2];
+        kiraly.lepes(hova,matrix);
+        assertEquals(hova.getFigura(),kiraly);
     }
 
     @Test
@@ -142,6 +168,12 @@ public class LepesTests {
         hova = matrix[5][5];
         assertTrue(kiralyno.lepesCheck(hova,matrix));
 
+        hova = matrix[4][7];
+        kiralyno.lepes(hova,matrix);
+        assertNotEquals(hova.getFigura(),kiralyno);
+        hova = matrix[5][5];
+        kiralyno.lepes(hova,matrix);
+        assertEquals(hova.getFigura(),kiralyno);
     }
 
     @Test
@@ -151,5 +183,19 @@ public class LepesTests {
         assertTrue(paraszt.lepesCheck(hova,matrix));
         hova = matrix[0][5];
         assertFalse(paraszt.lepesCheck(hova,matrix));
+
+        paraszt.lepes(hova,matrix);
+        assertNotEquals(hova.getFigura(),paraszt);
+        hova = matrix[3][5];
+        paraszt.lepes(hova,matrix);
+        assertEquals(hova.getFigura(),paraszt);
     }
+
+    @Test
+    public void isSakkVanTest()
+    {
+        assertFalse(kiraly.sakkCheck(matrix));
+    }
+
+
 }

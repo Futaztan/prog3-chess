@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+/**
+ * Ez a tábla jelenik meg amikor egy meccset nézünk vissza
+ */
 public class ReplayTabla  extends Tabla{
 
     public ReplayTabla(Runnable onGameOverCallback, AdatTarolo adat) throws IOException {
@@ -17,6 +20,10 @@ public class ReplayTabla  extends Tabla{
         replayUI();
     }
 
+    /**
+     * Létrehozza a táblát, ahol korábban lejátszott meccseket lehet vissza nézni
+     * @throws IOException Hibát dob ha nem találja a frame ikonját
+     */
     public void replayUI() throws IOException {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

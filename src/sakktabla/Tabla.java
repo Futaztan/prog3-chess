@@ -16,16 +16,19 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
+/**
+ * A sakktáblát megvalósító osztály
+ */
 public class Tabla {
     protected JFrame frame = new JFrame("Sakktabla");
     protected Mezo[][] matrix = new Mezo[8][8];
     private boolean feketeJon =false;
     private Figura selected_figura;
     private Mezo selected_mezo;
-    public JLabel kiJonLabel= new JLabel();
-    public JLabel sakkVanLabel = new JLabel();
-    public JLabel utolsolepesLabel = new JLabel();
-    public JButton mentesButton;
+    private JLabel kiJonLabel= new JLabel();
+    private JLabel sakkVanLabel = new JLabel();
+    private JLabel utolsolepesLabel = new JLabel();
+    private JButton mentesButton;
     protected Kiraly feketeKiraly;
     protected Kiraly feherKiraly;
     protected List<Figura> feherek = new ArrayList<Figura>();
@@ -36,6 +39,8 @@ public class Tabla {
     private Jatekos nyertes;
     protected List<Lepes> lepesek = new ArrayList<Lepes>();
 
+
+    //sima új játék esetén használt konstruktor
     public Tabla(Runnable onGameOverCallback, String feher, String fekete, Jatekos nyertes) throws IOException {
         feherNev=feher;
         feketeNev=fekete;
@@ -44,6 +49,7 @@ public class Tabla {
         jatekUI();
 
     }
+    //betöltött játék esetén használt konstruktor
     public Tabla(Runnable onGameOverCallback, AdatTarolo adat, Jatekos nyertes) throws IOException {
         feherNev=adat.getFehernev();
         feketeNev=adat.getFeketenev();
@@ -54,6 +60,9 @@ public class Tabla {
         jatekUI();
         mentesBetoltes();
     }
+
+
+   //ReplayTabla által használt konstrukor
     public Tabla(Runnable onGameOverCallback, AdatTarolo adat)
     {
         feherNev=adat.getFehernev();
@@ -63,6 +72,10 @@ public class Tabla {
         feketeJon = adat.isFeketeJon();
     }
 
+
+    /**
+     * betölti a kiválasztott fileból a korábban elmentett játék állását
+     */
     public void mentesBetoltes()
     {
         for(Lepes lepes : lepesek)
@@ -80,6 +93,10 @@ public class Tabla {
         else kiJonLabel.setText(feherNev+ " jön");
     }
 
+    /**
+     * felépíti az alap sakk táblát
+     * @throws IOException ha nem találná a frame-hez tartozó icont
+     */
     public void jatekUI() throws IOException {
 
 
@@ -219,7 +236,9 @@ public class Tabla {
     }
 
 
-
+    /**
+     * Ha vége a játéknak (valaki mattot kapott) akkor ez elmenti a meccset, hogy visszanézhető legyen
+     */
     public void jatekVege()
     {
 
@@ -241,6 +260,10 @@ public class Tabla {
 
     }
 
+
+    /**
+     * vissza lép a főmenübe
+     */
     public void exitToMenu()
     {
         if (onGameOverCallback != null) {
@@ -249,6 +272,11 @@ public class Tabla {
         frame.dispose();
     }
 
+    /**
+     * kezeli a kattintásokat hogy mivel és hova akar lépni egy játékos
+     * @param mezo a mező amire kattintott a felhasználó
+     *
+     */
     public void kattintas(Mezo mezo)
     {
 
@@ -304,6 +332,11 @@ public class Tabla {
         }
     }
 
+
+    /**
+     * Ha érvényes a lépés akkor ez a függvény meghívódik
+     * @param eredetiFigura a figura, amivel lépünk
+     */
     public void sikeresLepes(Figura eredetiFigura)
     {
 
@@ -345,15 +378,21 @@ public class Tabla {
         }
     }
 
-    public void hibasLepes(int eredetiSor, int eredetiOszlop, Mezo mezo, Icon eredetiIcon, Figura eredetiFigura, Figura currentFigura)
-    {
-        currentFigura.setSor(eredetiSor);
-        currentFigura.setOszlop(eredetiOszlop);
-        matrix[eredetiSor][eredetiOszlop].setFigura(currentFigura);
-        mezo.setIcon(eredetiIcon);
-        mezo.setFigura(eredetiFigura);
-        sakkVanLabel.setText("HIBAS LEPES");
-    }
+//    public void hibasLepes(int eredetiSor, int eredetiOszlop, Mezo mezo, Icon eredetiIcon, Figura eredetiFigura, Figura currentFigura)
+//    {
+//        currentFigura.setSor(eredetiSor);
+//        currentFigura.setOszlop(eredetiOszlop);
+//        matrix[eredetiSor][eredetiOszlop].setFigura(currentFigura);
+//        mezo.setIcon(eredetiIcon);
+//        mezo.setFigura(eredetiFigura);
+//        sakkVanLabel.setText("HIBAS LEPES");
+//    }
+
+    /**
+     * @param csapat melyik csapat(fehér vagy fekete) királyát nézzük hogy mattban van e
+     * @param csapatKiraly az adott csapathoz tartozó király objektum
+     * @return true ha matt van
+     */
     public boolean mattCheck(List<Figura> csapat, Kiraly csapatKiraly)
     {
             for(Figura babu : csapat)           //megnézi hogy sakk matt van e
@@ -390,5 +429,10 @@ public class Tabla {
                 }
             }
         return true;
+    }
+
+    private handleStartButton(ActionEvent e)
+    {
+
     }
 }

@@ -14,10 +14,15 @@ public class Kiraly extends Figura {
         else ikon = new ImageIcon(this.getClass().getResource("/ikonok/feher-kiraly.png"));
     }
 
+
+    /**
+     * Megnézi hogy az adott király sakkban van e
+     * @param matrix sakktábla mátrix
+     * @return true ha sakk van
+     */
     public boolean sakkCheck(Mezo[][] matrix)
     {
         Mezo kiralymezo = matrix[this.sor][this.oszlop];
-        boolean isSakkVan = false;
         for(int sor = 0; sor<8;sor++)
         {
             for(int oszlop=0; oszlop<8;oszlop++)
@@ -53,6 +58,11 @@ public class Kiraly extends Figura {
     }
 
 
+    /**
+     * Megnézi hogy a mező a király körüli négyzet van e
+     * @param mezo a mező ahová lépni akar
+     * @return true ha érvényes lépés
+     */
     public boolean isNegyzetLepes(Mezo mezo)
     {
         return  Math.abs(mezo.oszlop-this.oszlop)<=1 && Math.abs(mezo.sor-this.sor)<=1;

@@ -4,6 +4,9 @@ import figurak.Figura;
 
 import javax.swing.*;
 
+/**
+ * A sakktábla mátrixban használt Mezők, eltárolja hogy melyik sorban és oszlopban van illetve hogy milyen figura áll rajta
+ */
 public class Mezo extends JButton
 {
     private Figura figura;

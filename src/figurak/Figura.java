@@ -17,12 +17,28 @@ public Figura(boolean fekete,int sor,int oszlop )
     this.oszlop=oszlop;
 }
 
-//matrix a táblamátrix
-    //mezo az a mezo ahova lépni akar
+    /**
+     * Megnézi hogy érvényes e az adott lépés és ha igen akkor el is végzi a lépést
+     * @param mezo a mezo ahova lépni akar a játékos
+     * @param matrix a sakktábla mátrix
+     * @return true ha oda a mezo mezőre lépett
+     */
 public abstract boolean lepes(Mezo mezo,Mezo[][] matrix);
-//tud-e lépni az adott mezőre a figura
+
+    /**
+     * Megnézi hogy érvényes e az adott lépés, de nem végzi el ha az
+     * @param mezo a mezo ahova lépni akar a játékos
+     * @param matrix a sakktábla mátrix
+     * @return true ha érvényes lépés lenne
+     */
 public abstract boolean lepesCheck(Mezo mezo,Mezo[][] matrix);
 
+
+    /**
+     * Nem ellenőrizzük, hogy érvényes lépés lenne-e, szimplán mozgatjuk az adott figurát a megadott mezőre
+     * @param mezo a mező ahová tesszük az adott figurát
+     * @param matrix a sakktábla mátrix
+     */
 public void mozgatas(Mezo mezo, Mezo[][] matrix)
 {
     matrix[this.sor][this.oszlop].setFigura(null);

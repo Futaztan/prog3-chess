@@ -29,6 +29,12 @@ public class Kiralyno extends Figura {
         return isAtloLepes(mezo, matrix) || isOszlopSorLepes(mezo,matrix);
     }
 
+    /**
+     * Megnézi, hogy a bástyával egy sorban vagy oszlopban van e a mező
+     * @param mezo A mező ahová lépni akar a figura
+     * @param matrix a sakktábla mátrix
+     * @return true ha érvényes lépés
+     */
     public boolean isOszlopSorLepes(Mezo mezo, Mezo[][] matrix){
 
         String mezopozicio;
@@ -113,7 +119,12 @@ public class Kiralyno extends Figura {
         return false;
     }
 
-
+    /**
+     * A futó átló lépéseit ellenőrzi
+     * @param mezo A mező ahová lépni akar a figura
+     * @param matrix a sakktábla mátrix
+     * @return true ha érvényes lépés
+     */
     public boolean isAtloLepes(Mezo mezo,Mezo[][] matrix)
     {
         int hatarJobbLe=7;

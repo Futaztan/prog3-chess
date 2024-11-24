@@ -2,6 +2,9 @@ package sakktabla;
 
 import java.io.Serializable;
 
+/**
+ * sakk formátumú lépéseket valósítja meg
+ */
 public class Lepes implements Serializable {
 
     private int honnanSor;
@@ -10,7 +13,7 @@ public class Lepes implements Serializable {
     private char hovaBetu;
     private int honnanOszlop;
     private int hovaOszlop;
-    //sakk formátumú lépéseket valósítja meg
+
     public Lepes(int o1, int s1, int o2, int s2)
     {
         honnanOszlop = o1;

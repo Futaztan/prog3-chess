@@ -14,6 +14,9 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 
+/**
+ * A főmenüt megvalósító osztály
+ */
 public class Menu implements Serializable {
 
     private List<Jatekos> toplista = new ArrayList<Jatekos>();
@@ -27,12 +30,12 @@ public class Menu implements Serializable {
 //        toplista.add(new Jatekos("asd3",10));
 //        toplista.add(new Jatekos("asd4",3));
 //        toplista.add(new Jatekos("asd5",0));
-
-
-
         setupUI();
     }
 
+    /**
+     * Ez a függvény tölti be a korábban lementett toplistát
+     */
     public void listaBetoltes()
     {
         try {
@@ -45,6 +48,12 @@ public class Menu implements Serializable {
         }
     }
 
+    /**
+     * Kezeli az eredmény elmentését a toplistába, és frissíti a mentését
+     * @param nyertes a nyertes neve
+     * @param feherNev a fehér játékos neve
+     * @param feketeNev a fekete játékos neve
+     */
     public void eredmenyKezeles(String nyertes, String feherNev, String feketeNev)
     {
         boolean benneVanFeher = false;
@@ -82,6 +91,10 @@ public class Menu implements Serializable {
 
     }
 
+    /**
+     * Setupolja az alap menüt, amit a felhasznéló rögtön lát
+     * @throws IOException Ha nem találja a framehez tartozó icont
+     */
     public void setupUI() throws IOException {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
@@ -301,6 +314,35 @@ public class Menu implements Serializable {
 
     }
 
+    private void handleStartButton(ActionListener e)
+    {
+        String feherNev=JOptionPane.showInputDialog(null,"1. játékos neve");
+        String feketeNev=JOptionPane.showInputDialog(null,"2. játékos neve");
+        if(feherNev==null || feketeNev==null || feherNev.isBlank() || feketeNev.isBlank() || feherNev.isEmpty() || feketeNev.isEmpty() || feherNev.equals(feketeNev))
+        {
+            JOptionPane.showMessageDialog(null,"Hibás nevek");
+            return;
+        }
+        Jatekos seged = new Jatekos("",0);
+        frame.setVisible(false);
+        try {
+            Tabla t = new Tabla(() -> { // Callback: amikor a Tabla véget ér
+                frame.setVisible(true);
+                if(!seged.nev.equals("")){
+                    eredmenyKezeles(seged.nev,feherNev,feketeNev);
+                }
+
+            },feherNev,feketeNev,seged);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /**
+     * Létrehoz egy új gombot, ki dekorálja majd visszaadja ezt a buttont
+     * @param szoveg A szöveg ami megjelenik a buttonon
+     * @return egy designolt button
+     */
     private JButton ButtonDesign(String szoveg)
     {
         JButton btn = new JButton(szoveg);
